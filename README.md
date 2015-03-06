@@ -56,9 +56,10 @@ Adding certain "flags" when logging an event will add automatic properties to it
 | `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). |
 | `f` | Store an user's `fingerprint`, which is stable enough to identify a single user through one or more sessions, but variable enough that it will avoid most collisions. |
 | `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). |
-| `*` | Equivalent to specifying all flags. |
+| `h` | `headers` will be an object containing the http headers for the request. |
+| `*` | Equivalent to specifying all flags (use for debug only). |
 
-To avoid confusion, refrain from adding fields in `data` with the names `ip`, `lat`, `lon`, `country`, `geo`, `time`, `agent`, `browser`, `fingerprint` and `num`.
+To avoid confusion, refrain from adding fields in `data` with the names `ip`, `lat`, `lon`, `country`, `geo`, `time`, `agent`, `browser`, `fingerprint`, `num` and `headers`.
 
 ### Logging methods
 
