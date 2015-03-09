@@ -19,6 +19,9 @@
     "express": "~4.12.0",
     "jade": "~1.9.2",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "mongodb": "~1.4.34",
+    "mongoose": "~3.8.24",
+    "connect-mongo": "~0.7.0"
   }
 }
