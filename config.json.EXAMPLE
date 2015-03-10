@@ -2,5 +2,11 @@
     "secret": "TODO: get a secure, random string here! (And never change it!)",
     "dbUrl": "mongodb://127.0.0.1:62198/noumena",
     "dbUser": "noumena",
-    "dbPass": "TODO: either put secure random string here, or an existing user pass!"
+    "dbPass": "TODO: either put secure random string here, or an existing user pass!",
+    "users": {
+        "admin": {
+            "pass": "TODO: another random string! Will be the admin's password.",
+            "admin": true
+        }
+    }
 }
