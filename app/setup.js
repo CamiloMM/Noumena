@@ -12,23 +12,18 @@ function buildCss(next, ensureDirectory) {
     var code = fs.readFileSync(process.cwd() + '/all.less', {encoding: 'utf8'});
     var options = {
         paths        : [process.cwd()],
-        optimization : 2,
         filename     : "all.less",
         compress     : true,
-        cleancss     : true,
         ieCompat     : false
     };
-    var parser = new less.Parser(options);
-    parser.parse(code, function(error, cssTree) {
+    less.render(code, options, function(error, output) {
         ensureDirectory();
 
         if (error) { return less.writeError(error, options); }
 
-        var css = cssTree.toCSS(options);
-
         app.set('css', {
-            md5:  crypto.createHash('md5').update(css).digest('hex'),
-            code: css
+            md5:  crypto.createHash('md5').update(output.css).digest('hex'),
+            code: output.css
         });
 
         next();
