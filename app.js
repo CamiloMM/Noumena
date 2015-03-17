@@ -28,7 +28,7 @@ app.db.once('open', function callback () {
         secret: app.config.secret, // Make sure you edit this in your config.
         resave: true,
         saveUninitialized: true,
-        store: new MongoStore({db: mongoose.connection.db})
+        store: new MongoStore({mongooseConnection: mongoose.connection})
     };
 
     // Make our app accessible to our router
