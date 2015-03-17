@@ -1,7 +1,11 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= title
+        include favicons
+        link(rel='stylesheet', href='/static/' + get('css').md5 + '.css')
+        script(src='/static/' + get('js').md5 + '.js')
+    body
+        include navbar
+        #content
+            block content
