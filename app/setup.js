@@ -1,20 +1,26 @@
-var path       = require('path');
-var less       = require('less');
-var fs         = require('fs');
-var crypto     = require('crypto');
-var chokidar   = require('chokidar');
-var browserify = require('browserify');
-var UglifyJS   = require('uglify-js');
-var debug      = require('debug')('Noumena:setup');
+var path         = require('path');
+var less         = require('less');
+var fs           = require('fs');
+var crypto       = require('crypto');
+var chokidar     = require('chokidar');
+var browserify   = require('browserify');
+var UglifyJS     = require('uglify-js');
+var LessCleanCSS = require('less-plugin-clean-css');
+var debug        = require('debug')('Noumena:setup');
 var app;
 
 function buildCss(next, ensureDirectory) {
+    var lessCleanCSS = new LessCleanCSS({
+        advanced: true,
+        keepSpecialComments: false
+    });
     var code = fs.readFileSync(process.cwd() + '/all.less', {encoding: 'utf8'});
     var options = {
-        paths        : [process.cwd()],
-        filename     : "all.less",
-        compress     : true,
-        ieCompat     : false
+        paths    : [process.cwd()],
+        filename : "all.less",
+        compress : true,
+        ieCompat : false,
+        plugins  : [lessCleanCSS]
     };
     less.render(code, options, function(error, output) {
         ensureDirectory();
