@@ -1,0 +1,28 @@
+#navbar {
+    .above;
+    .bkg(@darkGrey);
+    .dock-top(fixed, 48px);
+    .pad(4px);
+    .user-select-none;
+    border-bottom: 2px solid @lightGrey;
+
+    .logo {
+        .dock-left(absolute, 48px);
+        .img-logo;
+        .no-outline;
+        margin: 4px;
+
+        &:hover, &:focus {
+            -webkit-filter: brightness(110%);
+            filter: brightness(110%);
+        }
+    }
+
+    h1 {
+        .fill(absolute);
+        .single-line(ellipsis);
+        color: @lightGrey;
+        font: 600 28px/40px @baseFont;
+        margin: 6px 64px 6px 64px;
+    }
+}
