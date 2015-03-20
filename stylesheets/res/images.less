@@ -1,0 +1,18 @@
+
+.image(@uri) {
+    .bkg-size(100%);
+    .no-repeat;
+    background-image: @uri;
+}
+
+.svg(@path) {
+    .image(data-uri('image/svg+xml;charset=UTF-8', "@{path}.svg"));
+}
+
+.png(@path) {
+    .image(data-uri("@{path}.png"));
+}
+
+.img-logo() {
+    .png('res/logo-96px');
+}
