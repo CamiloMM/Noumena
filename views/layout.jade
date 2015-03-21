@@ -1,11 +1,19 @@
 doctype html
-html
-    head
-        title= title
-        include favicons
-        link(rel='stylesheet', href='/static/' + get('css').md5 + '.css')
-        script(src='/static/' + get('js').md5 + '.js')
-    body
-        include navbar
-        #content
-            block content
+if get('css') && get('js')
+    html
+        head
+            title= title
+            include favicons
+            link(rel='stylesheet', href='/static/' + get('css').md5 + '.css')
+            script(src='/static/' + get('js').md5 + '.js')
+        body
+            include navbar
+            #content
+                block content
+else
+    html
+        head
+            meta(http-equiv='refresh', content='5')
+        body
+            p(style='font: 14px sans-serif')
+                | CSS/JS is being compiled, refreshing in 5 seconds...
