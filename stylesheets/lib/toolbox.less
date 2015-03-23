@@ -301,6 +301,7 @@
 @easeInOutBack  : cubic-bezier(0.680,-0.550, 0.265, 1.550);
 
 // Cross-browser CSS3 border-radius with bkg bleed fix.
+// 2015 note: this is not needed anymore.
 
 .border-radius(...) {
       -webkit-border-radius: @arguments;
@@ -459,3 +460,38 @@
 // Disable some default stuff on forms and links.
 .no-border () { border: none; }
 .no-outline() { outline: none; }
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                           2015 Additions                             //
+//////////////////////////////////////////////////////////////////////////
+
+
+
+// This is a for-each thing which I do not completely comprehend, but am using.
+// I'd really like to have a better understanding of it but honestly I'm just
+// happy it works, for now. Yeah, another time I'll look better into how it works.
+// Took it from: github.com/seven-phases-max/less.curious/blob/master/src/for.less
+// Examples can be found in the following two articles:
+// github.com/seven-phases-max/less.curious/blob/master/articles/generic-for.md
+// github.com/seven-phases-max/less.curious/blob/master/articles/for-each.md
+.for(@i, @n) {.-each(@i)}
+.for(@n)       when (isnumber(@n)) {.for(1, @n)}
+.for(@i, @n)   when not (@i = @n)  {.for((@i + (@n - @i) / abs(@n - @i)), @n);}
+.for(@array)   when (default())    {.for-impl_(length(@array))}
+.for-impl_(@i) when (@i > 1)       {.for-impl_((@i - 1))}
+.for-impl_(@i) when (@i > 0)       {.-each(extract(@array, @i))}
+
+// Easy border-radius with optional background.
+// Note: You can omit background, and you can also use comma-delimited background
+// (such as for multiple background images) and the commas will be kept thanks to the
+// for-each abstraction above, but keep in mind you must not have declared backgrounds
+// before with the comma merge modifier ("rule+:") unless you know what you're doing.
+// For info see: http://lesscss.org/features/#merge-feature-comma
+.radius(@radius, @background...) {
+    border-radius: @radius;
+    .for(@background); .-each(@i) {
+        background+: @i;
+    }
+}
