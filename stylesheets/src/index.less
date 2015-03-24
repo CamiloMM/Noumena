@@ -5,25 +5,13 @@
     .button {
         .bkg(linear-gradient(#FFF, #DDD), @lightGrey);
         .block;
-        .clip-padding;
         .no-underline;
-        .pad(0px);
-        .radius(4px, 1px solid transparent);
-        .relative;
+        .round-border-gradient(relative, 1px, 4px, linear-gradient(#EEE, #BBB));
         .size(100%, 48px);
         box-shadow: inset 0 -3px 24px 0 #FFF,
                     0 1px 3px rgba(0, 0, 0, 0.3),
                     0 2px 13px rgba(0, 0, 0, 0.2);
         font: 24px/48px sans-serif;
         margin: 16px 0;
-
-        &::after {
-            .absolute;
-            .below;
-            .bkg(linear-gradient(#EEE, #BBB));
-            .empty;
-            .radius(4px);
-            .sides(-1px);
-        }
     }
 }

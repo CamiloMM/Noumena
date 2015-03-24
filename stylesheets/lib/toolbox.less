@@ -515,3 +515,21 @@
 
 // Content: '' is so un-hip.
 .empty() { content: ''; }
+
+// Creating rounded-corners with a border filled with a gradient is
+// not only an edge case, but also a bit tricky. This abstracts it.
+.round-border-gradient(@position, @thickness, @radius, @gradient, @level: 1)
+when (@position = absolute), (@position = relative), (@position = fixed) {
+    .clip-padding;
+    .radius(@radius, @thickness solid transparent);
+    position: @position;
+
+    &::before {
+        .absolute;
+        .below(@level);
+        .bkg(@gradient);
+        .empty;
+        .radius(@radius);
+        .sides(-@thickness);
+    }
+}
