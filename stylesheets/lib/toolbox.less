@@ -183,7 +183,7 @@
 
 // Background short-hands.
 
-.bkg     (@bkg)        { background: @bkg;                 }
+.bkg     (@bkg)        { background: @bkg;                 } // extended in 2015, see below
 .no-bkg  ()            { .bkg(transparent);                }
 .bkg-size(@size)       { background-size: @size;           }
 .bkg-url (@url)        { background-image: url("@{url}");  }
@@ -483,14 +483,20 @@
 .for-impl_(@i) when (@i > 1)       {.for-impl_((@i - 1))}
 .for-impl_(@i) when (@i > 0)       {.-each(extract(@array, @i))}
 
-// Easy border-radius with optional background.
-// Note: You can omit background, and you can also use comma-delimited background
-// (such as for multiple background images) and the commas will be kept thanks to the
-// for-each abstraction above, but keep in mind you must not have declared backgrounds
-// before with the comma merge modifier ("rule+:") unless you know what you're doing.
-// For info see: http://lesscss.org/features/#merge-feature-comma
-.radius(@radius, @background...) {
+// Easy border-radius with optional border declaration.
+.radius(@radius, @border...) {
     border-radius: @radius;
+    .for(@border); .-each(@i) {
+        border+: @i;
+    }
+}
+
+// Background extension.
+// Note you can now use comma-delimited background (such as for multiple background images)
+// and the commas will be kept thanks to the for-each abstraction above, but keep in mind
+// you must not have declared backgrounds before with the comma merge modifier ("rule+:")
+// unless you know what you're doing. Dee: http://lesscss.org/features/#merge-feature-comma
+.bkg(@background...) {
     .for(@background); .-each(@i) {
         background+: @i;
     }
