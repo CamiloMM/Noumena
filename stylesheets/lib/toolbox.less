@@ -109,7 +109,7 @@
 .sides (@vert, @horiz) when not (iskeyword(@vert)) { top: @vert; right: @horiz; bottom: @vert; left: @horiz; }
 .sides (@all) when not (iskeyword(@all)) { top: @all; right: @all; bottom: @all; left: @all; }
 
-.fill () { .sides(0, 0, 0, 0); }
+.fill () { .sides(0); }
 
 // Same as above, but with absolute and fixed switches.
 
@@ -201,25 +201,27 @@
 // more property names. But still if LESS would just let me concatenate two strings without
 // a space in the middle or quotes around them... argh.
 
-.bkg-clip (border-box)  { -webkit-background-clip: border;  -webkit-background-clip:  border-box;
-                             -moz-background-clip: border;     -moz-background-clip:  border-box;
-                                                                    background-clip:  border-box;}
-.bkg-clip (padding-box) { -webkit-background-clip: padding; -webkit-background-clip: padding-box;
-                             -moz-background-clip: padding;    -moz-background-clip: padding-box;
-                                                                    background-clip: padding-box;}
-.bkg-clip (content-box) { -webkit-background-clip: content; -webkit-background-clip: content-box;
-                             -moz-background-clip: content;    -moz-background-clip: content-box;
-                                                                    background-clip: content-box;}
-																	
-.bkg-origin (border-box)  { -webkit-background-origin: border;  -webkit-background-origin:  border-box;
-                               -moz-background-origin: border;     -moz-background-origin:  border-box;
-                                                                        background-origin:  border-box;}
-.bkg-origin (padding-box) { -webkit-background-origin: padding; -webkit-background-origin: padding-box;
-                               -moz-background-origin: padding;    -moz-background-origin: padding-box;
-                                                                        background-origin: padding-box;}
-.bkg-origin (content-box) { -webkit-background-origin: content; -webkit-background-origin: content-box;
-                               -moz-background-origin: content;    -moz-background-origin: content-box;
-                                                                        background-origin: content-box;}
+// Update in 2015: this is all so much bullshit. Time to castrate those prefixes.
+
+//.bkg-clip (border-box)  { -webkit-background-clip: border;  -webkit-background-clip:  border-box;
+//                             -moz-background-clip: border;     -moz-background-clip:  border-box;
+//                                                                    background-clip:  border-box;}
+//.bkg-clip (padding-box) { -webkit-background-clip: padding; -webkit-background-clip: padding-box;
+//                             -moz-background-clip: padding;    -moz-background-clip: padding-box;
+//                                                                    background-clip: padding-box;}
+//.bkg-clip (content-box) { -webkit-background-clip: content; -webkit-background-clip: content-box;
+//                             -moz-background-clip: content;    -moz-background-clip: content-box;
+//                                                                    background-clip: content-box;}
+//																	
+//.bkg-origin (border-box)  { -webkit-background-origin: border;  -webkit-background-origin:  border-box;
+//                               -moz-background-origin: border;     -moz-background-origin:  border-box;
+//                                                                        background-origin:  border-box;}
+//.bkg-origin (padding-box) { -webkit-background-origin: padding; -webkit-background-origin: padding-box;
+//                               -moz-background-origin: padding;    -moz-background-origin: padding-box;
+//                                                                        background-origin: padding-box;}
+//.bkg-origin (content-box) { -webkit-background-origin: content; -webkit-background-origin: content-box;
+//                               -moz-background-origin: content;    -moz-background-origin: content-box;
+//                                                                        background-origin: content-box;}
 
 // For layout debugging.
 
@@ -303,13 +305,13 @@
 // Cross-browser CSS3 border-radius with bkg bleed fix.
 // 2015 note: this is not needed anymore.
 
-.border-radius(...) {
-      -webkit-border-radius: @arguments;
-         -moz-border-radius: @arguments;
-              border-radius: @arguments;
-	// Because of http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
-    .bkg-clip(padding-box);
-}
+//.border-radius(...) {
+//      -webkit-border-radius: @arguments;
+//         -moz-border-radius: @arguments;
+//              border-radius: @arguments;
+//	// Because of http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
+//    .bkg-clip(padding-box);
+//}
 
 // CSS3 box-shadow.
 
@@ -484,11 +486,12 @@
 .for-impl_(@i) when (@i > 0)       {.-each(extract(@array, @i))}
 
 // Easy border-radius with optional border declaration.
-.radius(@radius, @border...) {
+.radius(@radius) {
     border-radius: @radius;
-    .for(@border); .-each(@i) {
-        border+: @i;
-    }
+}
+.radius(@radius, @border) {
+    border-radius: @radius;
+    border: @border
 }
 
 // Background extension.
@@ -501,3 +504,14 @@
         background+: @i;
     }
 }
+
+// No-bullshit background clip and origin.
+.clip-border    () { background-clip:    border-box; }
+.clip-padding   () { background-clip:   padding-box; }
+.clip-content   () { background-clip:   content-box; }
+.origin-border  () { background-origin:  border-box; }
+.origin-padding () { background-origin: padding-box; }
+.origin-content () { background-origin: content-box; }
+
+// Content: '' is so un-hip.
+.empty() { content: ''; }
