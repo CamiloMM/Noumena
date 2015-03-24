@@ -11,7 +11,7 @@ var app;
 
 function buildCss(next, ensureDirectory) {
     var lessCleanCSS = new LessCleanCSS({
-        advanced: true,
+        advanced: false, // It's buggy, was removing a background-clip:padding-box rule.
         keepSpecialComments: false
     });
     var code = fs.readFileSync(process.cwd() + '/all.less', {encoding: 'utf8'});
