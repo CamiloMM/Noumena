@@ -6,14 +6,14 @@
         .bkg(@skyBlueLight);
         .block;
         .no-underline;
-        .radius(6px, 2px solid @skyBlue);
+        .radius(6px, 2px solid darken(@skyBlueLight, 16%));
         .size(100%, 48px);
         box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5),
-                    inset 0 -2px 0 @skyBlue;
+                    inset 0 -2px 0 darken(@skyBlueLight, 16%);
         color: #FFF;
         font: 24px/48px sans-serif;
         margin: 16px 0;
-        text-shadow: 0 1px 0px @skyBlueDark;
+        text-shadow: 0 1px 0px darken(@skyBlueLight, 24%);
         .no-outline;
 
         &:hover, &:focus {
