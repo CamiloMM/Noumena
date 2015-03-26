@@ -3,15 +3,28 @@
     .text-center;
 
     .button {
-        .bkg(linear-gradient(#FFF, #DDD), @lightGrey);
+        .bkg(@skyBlueLight);
         .block;
         .no-underline;
-        .round-border-gradient(relative, 1px, 4px, linear-gradient(#EEE, #BBB));
+        .radius(6px, 2px solid @skyBlue);
         .size(100%, 48px);
-        box-shadow: inset 0 -3px 24px 0 #FFF,
-                    0 1px 3px rgba(0, 0, 0, 0.3),
-                    0 2px 13px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5),
+                    inset 0 -2px 0 @skyBlue;
+        color: #FFF;
         font: 24px/48px sans-serif;
         margin: 16px 0;
+        text-shadow: 0 1px 0px @skyBlueDark;
+        .no-outline;
+
+        &:hover, &:focus {
+            .bkg(lighten(@skyBlueLight, 8%));
+        }
+
+        &:active {
+            .bkg(darken(@skyBlueLight, 8%));
+            margin-top: 18px;
+            height: 46px;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5);
+        }
     }
 }
