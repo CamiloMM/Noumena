@@ -1,0 +1,39 @@
+body {
+    color: @textColor;
+    background: @almostWhite;
+}
+
+#content {
+    .fill(absolute);
+    padding: 0;
+    margin: 56px 0 0 0;
+}
+
+a {
+    color: inherit;
+}
+
+// Makes an anchor into a button in the style of Noumena.
+// baseColor is expected to be light, like one of the light variants in the Tango palette.
+.noumena-button(@borderThickness, @height, @baseColor, @marginTop: 0px) {
+    .bkg(@baseColor);
+    .no-outline;
+    .no-underline;
+    .radius(@borderThickness * 3, @borderThickness solid darken(@baseColor, 16%));
+    box-shadow: inset 0 @borderThickness 0 rgba(255, 255, 255, 0.5),
+                inset 0 -@borderThickness 0 darken(@baseColor, 16%);
+    color: #FFF;
+    height: @height;
+    text-shadow: 0 1px 0px darken(@baseColor, 24%);
+
+    &:hover, &:focus {
+        .bkg(lighten(@baseColor, 8%));
+    }
+
+    &:active {
+        .bkg(darken(@baseColor, 8%));
+        box-shadow: inset 0 @borderThickness 0 rgba(255, 255, 255, 0.5);
+        height: @height - @borderThickness;
+        margin-top: @marginTop + @borderThickness;
+    }
+}
