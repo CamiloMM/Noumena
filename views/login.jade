@@ -1,4 +1,7 @@
 extends layout
 
 block content
-    p (This is a placeholder for the Login page.)
+    form(action='/login', method='post', class='centered-form')
+        input(type='text', name='username', placeholder='Username')
+        input(type='text', name='password', placeholder='Password')
+        input(type='submit', value='Login')
