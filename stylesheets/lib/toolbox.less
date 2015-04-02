@@ -188,6 +188,7 @@
 .bkg-size(@size)       { background-size: @size;           }
 .bkg-url (@url)        { background-image: url("@{url}");  }
 .bkg-url (@url, @size) { .bkg-url(@url); .bkg-size(@size); }
+.bkg-pos (@both)       { background-position: @both;       }
 .bkg-pos (@x, @y)      { background-position: @x @y;       }
 
 .repeat    () { background-repeat: repeat;    }
@@ -531,5 +532,35 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
         .empty;
         .radius(@radius);
         .sides(-@thickness);
+    }
+}
+
+// This accepts a ruleset, which styles the placeholder text of inputs.
+// This is supported on Webkit/Blink browsers (including Opera 15+),
+// Firefox 19+ and IE 10+. Firefox 4+ can be supported by setting the
+// third (optional) argument to true.
+// Opacity must be specified explicitly; this is to avoid surprises.
+// On Firefox, the default opacity is 0.4. If you specify 1, only Firefox
+// will get an opacity set (since others already have it).
+// Also, I wish there was a standard so I could add the "standard syntax"
+// too, but there isn't any, so in the future this is something that will
+// have to be updated (I still expect most browsers will support their
+// vendor-prefixed versions for a while).
+.placeholder(@opacity, @rules, @oldFirefox: false) {
+    &::-webkit-input-placeholder {
+        & when (@opacity < 1) { opacity: @opacity; }
+        @rules();
+    }
+    &:-moz-placeholder when (@oldFirefox) {
+        opacity: @opacity;
+        @rules();
+    }
+    &::-moz-placeholder {
+        opacity: @opacity;
+        @rules();
+    }
+    &:-ms-input-placeholder {
+        & when (@opacity < 1) { opacity: @opacity; }
+        @rules();
     }
 }
