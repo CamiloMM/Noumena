@@ -564,3 +564,14 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
         @rules();
     }
 }
+
+// Style text selection with a ruleset. Firefox needs the prefixed version, at least
+// until this bug is fixed: https://bugzilla.mozilla.org/show_bug.cgi?id=509958
+.selection(@rules) {
+    &::-moz-selection {
+        @rules();
+    }
+    &::selection {
+        @rules();
+    }
+}
