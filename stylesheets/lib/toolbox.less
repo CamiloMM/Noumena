@@ -575,3 +575,21 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
         @rules();
     }
 }
+
+// Sets selection colors easily.
+// To fix Chrome's colors, the background opacity is clipped at 99.6%.
+// Furthermore, selection opacity on img is clipped at 80%.
+// (See http://stackoverflow.com/a/29413950 for why I did that.)
+.selection-colors(@foreground, @background) {
+    &::-moz-selection {
+        background: @background;
+        color: @foreground;
+    }
+    &::selection {
+        background: fade(@background, min(99.6%, alpha(@background) * 100%));
+        color: @foreground;
+    }
+    & img::selection {
+        background: fade(@background, min(80%, alpha(@background) * 100%));
+    }
+}
