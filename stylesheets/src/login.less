@@ -1,0 +1,37 @@
+.centered-form {
+    .center-h(400px);
+    .text-center;
+
+    [type="text"] {
+        .bkg-pos(98% 50%) !important;
+        .block;
+        .radius(6px, 2px solid @tangoGrey);
+        .size(400px - 36px, 48px);
+        color: darken(@tangoGrey, 20%);
+        font: 24px/48px sans-serif;
+        margin: 16px 0;
+        outline: none;
+        padding: 0 16px;
+
+        .placeholder(1, {
+            color: lighten(@tangoGrey, 10%)
+        });
+
+        &:focus {
+            border-color: @tangoBlue;
+            box-shadow: 0 0 0 2px lighten(@tangoBlue, 25%);
+            color: darken(@tangoBlue, 20%);
+
+            .placeholder(1, {
+                color: lighten(@tangoBlue, 10%)
+            });
+        }
+    }
+
+    [type="submit"] {
+        .noumena-button(2px, 48px, @tangoBlue, 0px);
+        font: 24px/32px sans-serif;
+        margin: 0;
+        width: 400px;
+    }
+}
