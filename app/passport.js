@@ -13,6 +13,8 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false, { message: 'Incorrect password.' });
     }
 
+    user.name = username;
+
     done(null, user);
 }));
 
