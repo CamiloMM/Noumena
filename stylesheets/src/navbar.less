@@ -7,10 +7,10 @@
     border-bottom: 2px solid @lightGrey;
 
     .logo {
-        .dock-left(absolute, 48px);
-        .img-logo;
+        .dock-left(absolute, 40px);
+        .img-logo-glyph;
         .no-outline;
-        margin: 4px;
+        margin: 8px;
 
         &:hover, &:focus {
             -webkit-filter: brightness(110%);
@@ -24,5 +24,23 @@
         color: #C4C4C4;
         font: 600 28px/40px @baseFont;
         margin: 6px 64px 6px 64px;
+    }
+}
+
+#account {
+    .block;
+    .dock-right(absolute, 128px);
+    .no-underline;
+    .text-center;
+    border-left: 3px solid @lightGrey;
+    color: #AAA;
+    margin: 8px 0;
+
+    p, b { margin: 2px 4px; }
+
+    b {
+        .block;
+        .single-line;
+        color: #BBB;
     }
 }
