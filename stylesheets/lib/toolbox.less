@@ -593,3 +593,9 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
         background: fade(@background, min(80%, alpha(@background) * 100%));
     }
 }
+
+// CSS filters auto-prefixer.
+.filter(@filters) {
+    -webkit-filter: @filters;
+    filter: @filters;
+}
