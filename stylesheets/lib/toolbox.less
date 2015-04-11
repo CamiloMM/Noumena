@@ -595,7 +595,8 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
 }
 
 // CSS filters auto-prefixer.
+// When called multiple times in merge-able contexts, will append filters.
 .filter(@filters) {
-    -webkit-filter: @filters;
-    filter: @filters;
+    -webkit-filter+_: @filters;
+    filter+_: @filters;
 }
