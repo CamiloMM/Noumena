@@ -600,3 +600,95 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
     -webkit-filter+_: @filters;
     filter+_: @filters;
 }
+
+// What follows is a monstruosity, which is an attempt to have Photoshop's 
+// "Color Overlay" layer effect in CSS. To an extent this is do-able, but very tricky,
+// and involves understandment of the horrible hue-rotate CSS filter.
+// For more info on hue-rotate see this: http://stackoverflow.com/questions/29479394
+// And about the Color Overlay itself: http://stackoverflow.com/questions/29458666
+
+// Conditionally adds opacity filter when color calls for it.
+._conditional-opacity(@color) when (alpha(@color) < 1) {
+  .filter(opacity(alpha(@color)));
+}
+
+// Special case for pure black.
+.colorize(@color) when (fade(@color, 100%) = #000) {
+  .filter(brightness(0));
+  ._conditional-opacity(@color);
+}
+
+// Special case for pure grey and off-by-one-grey.
+.colorize(@color) when (fade(@color, 100%) = #7F7F7F),
+                       (fade(@color, 100%) = #808080) {
+  .filter(contrast(0));
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure red.
+.colorize(@color) when (red(@color) > 0)
+                   and (green(@color) = 0)
+                   and (blue(@color) = 0) {
+  .filter(contrast(0) sepia(1) saturate(999));
+  & when (red(@color) < 255) { .filter(brightness(red(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure green.
+.colorize(@color) when (red(@color) = 0)
+                   and (green(@color) > 0)
+                   and (blue(@color) = 0) {
+  .filter(contrast(0) sepia(1) hue-rotate(99deg) saturate(999));
+  & when (green(@color) < 255) { .filter(brightness(green(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure blue.
+.colorize(@color) when (red(@color) = 0)
+                   and (green(@color) = 0)
+                   and (blue(@color) > 0) {
+  .filter(contrast(0) sepia(1) hue-rotate(199deg) saturate(999));
+  & when (blue(@color) < 255) { .filter(brightness(blue(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure cyan.
+.colorize(@color) when (red(@color) = 0)
+                   and (green(@color) > 0)
+                   and (blue(@color) = green(@color)) {
+  .filter(contrast(0) sepia(1) invert(1) saturate(999));
+  & when (blue(@color) < 255) { .filter(brightness(blue(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure magenta.
+.colorize(@color) when (red(@color) = blue(@color))
+                   and (green(@color) = 0)
+                   and (blue(@color) > 0) {
+  .filter(contrast(0) sepia(1) hue-rotate(-99deg) saturate(999));
+  & when (red(@color) < 255) { .filter(brightness(red(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure yellow.
+.colorize(@color) when (red(@color) > 0)
+                   and (green(@color) = red(@color))
+                   and (blue(@color) = 0) {
+  .filter(contrast(0) sepia(1) hue-rotate(199deg) saturate(999) invert(1));
+  & when (green(@color) < 255) { .filter(brightness(green(@color) / 255)); }
+  ._conditional-opacity(@color);
+}
+
+// Special case for shades of pure grey and white.
+.colorize(@color) when (red(@color) = green(@color))
+                   and (green(@color) = blue(@color))
+                   and not (blue(@color) = 0) // We've optimized these before.
+                   and not (blue(@color) = 127)
+                   and not (blue(@color) = 128) {
+  .filter(contrast(0) brightness(round(blue(@color) / 255 * 2 + .00765, 3)));
+  ._conditional-opacity(@color);
+}
+
+.colorize(@color) when (default()) {
+  // General case not figured out yet.
+}
