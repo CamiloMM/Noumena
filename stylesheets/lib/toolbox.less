@@ -607,9 +607,14 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
 // For more info on hue-rotate see this: http://stackoverflow.com/questions/29479394
 // And about the Color Overlay itself: http://stackoverflow.com/questions/29458666
 
-// Conditionally adds opacity filter when color calls for it.
+// Helper that conditionally adds opacity filter when color calls for it.
 ._conditional-opacity(@color) when (alpha(@color) < 1) {
-    .filter(opacity(alpha(@color)));
+    .filter(round(opacity(alpha(@color)), 3));
+}
+
+// Helper that adds a brightness filter when necessary.
+._conditional-brightness(@channel) when (@channel < 255) {
+    .filter(brightness(round(@channel / 255, 3)));
 }
 
 // Special case for pure black.
@@ -630,7 +635,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) = 0)
                    and (blue(@color) = 0) {
     .filter(contrast(0) sepia(1) saturate(999));
-    & when (red(@color) < 255) { .filter(brightness(red(@color) / 255)); }
+    ._conditional-brightness(red(@color));
     ._conditional-opacity(@color);
 }
 
@@ -639,7 +644,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) > 0)
                    and (blue(@color) = 0) {
     .filter(contrast(0) sepia(1) hue-rotate(99deg) saturate(999));
-    & when (green(@color) < 255) { .filter(brightness(green(@color) / 255)); }
+    ._conditional-brightness(green(@color));
     ._conditional-opacity(@color);
 }
 
@@ -648,7 +653,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) = 0)
                    and (blue(@color) > 0) {
     .filter(contrast(0) sepia(1) hue-rotate(199deg) saturate(999));
-    & when (blue(@color) < 255) { .filter(brightness(blue(@color) / 255)); }
+    ._conditional-brightness(blue(@color));
     ._conditional-opacity(@color);
 }
 
@@ -657,7 +662,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) > 0)
                    and (blue(@color) = green(@color)) {
     .filter(contrast(0) sepia(1) invert(1) saturate(999));
-    & when (blue(@color) < 255) { .filter(brightness(blue(@color) / 255)); }
+    ._conditional-brightness(blue(@color));
     ._conditional-opacity(@color);
 }
 
@@ -666,7 +671,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) = 0)
                    and (blue(@color) > 0) {
     .filter(contrast(0) sepia(1) hue-rotate(-99deg) saturate(999));
-    & when (red(@color) < 255) { .filter(brightness(red(@color) / 255)); }
+    ._conditional-brightness(red(@color));
     ._conditional-opacity(@color);
 }
 
@@ -675,7 +680,7 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
                    and (green(@color) = red(@color))
                    and (blue(@color) = 0) {
     .filter(contrast(0) sepia(1) hue-rotate(199deg) saturate(999) invert(1));
-    & when (green(@color) < 255) { .filter(brightness(green(@color) / 255)); }
+    ._conditional-brightness(green(@color));
     ._conditional-opacity(@color);
 }
 
@@ -690,5 +695,5 @@ when (@position = absolute), (@position = relative), (@position = fixed) {
 }
 
 .colorize(@color) when (default()) {
-    // General case not figured out yet.
+  // General case not figured out yet.
 }
