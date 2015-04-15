@@ -1,7 +1,9 @@
 extends layout
 
 block content
-    form(action='/login', method='post', class='centered-form')
-        input(type='text', name='username', placeholder='Username')
-        input(type='password', name='password', placeholder='Password')
-        input(type='submit', value='Login')
+    form.centered-form(action='/login' method='post')
+        input(type='text' name='username' placeholder='Username')
+        input(type='password' name='password' placeholder='Password')
+        input.login(type='submit' value='Login')
+    form.centered-form(action='/logout' method='post')
+        input.logout(type='submit' value='Logout')
