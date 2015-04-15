@@ -1,4 +1,12 @@
 #navbar
-    a.logo(href='/')
+    a.logo(href='/' title='Noumena Home')
     h1= title
-    // More stuff to come.
+    if loggedIn
+        - var t = 'Logged in as "' + currentUser.name + '". Follow this link to log out.';
+        a#account(href='/login' title=t)
+            p logged in as
+            b= currentUser.name
+    else
+        a#account(href='/login' title='Not logged in. Follow this link to log in.')
+            p click here to
+            b log in
