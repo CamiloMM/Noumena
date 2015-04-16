@@ -4,6 +4,10 @@ block content
     form.centered-form(action='/login' method='post')
         input(type='text' name='username' placeholder='Username')
         input(type='password' name='password' placeholder='Password')
-        input.login(type='submit' value='Login')
-    form.centered-form(action='/logout' method='post')
-        input.logout(type='submit' value='Logout')
+        if loggedIn
+            input.login(type='submit' value='Login as a different user')
+        else
+            input.login(type='submit' value='Login')
+    if loggedIn
+        form.centered-form(action='/logout' method='post')
+            input.logout(type='submit' value='Logout')
