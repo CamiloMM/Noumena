@@ -12,4 +12,10 @@ router.post('/login', passport.authenticate('local', {
     failureFlash:    false
 }));
 
+// Technically a different route, but related, so we'll drop it here.
+router.post('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/login');
+});
+
 module.exports = router;
