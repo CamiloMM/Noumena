@@ -270,11 +270,12 @@
 .transition (...) {
     // As of writing, the only current browsers needing prefixes are android
     // and blackberry browsers. Yay! http://caniuse.com/css-transitions
-    -webkit-transition: @arguments;
-    // -moz-transition: @arguments;
-    //  -ms-transition: @arguments;
-    //   -o-transition: @arguments;
-            transition: @arguments;
+    // Edit: no prefixes, yay!
+    //-webkit-transition: @arguments;
+    //   -moz-transition: @arguments;
+    //    -ms-transition: @arguments;
+    //     -o-transition: @arguments;
+              transition: @arguments;
 }
 
 // Penner equations approximated into cubic beziers by Matthew Lein:
@@ -453,7 +454,9 @@
 // It's pretty common to specify front and background together.
 // The ordering of the parameters was chosen because "black on white"
 // or "white on black" is more common than, say, "white with black on top"
+// Optionally (2015 addition): as a third argument for the border color.
 .colors(@fg, @bg) { color: @fg; background-color: @bg; }
+.colors(@fg, @bg, @bc) { color: @fg; background-color: @bg; border-color: @bc; }
 
 // For when you want text to occupy just one line.
 .single-line (clip)     { .no-wrap; .hide-overflow; .text-clip; }
