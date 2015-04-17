@@ -1,6 +1,20 @@
-#navbar
+
+//- If we have flashes to display, we'll read them all and add a class to the navbar.
+- for(var fc,flashes=[],f;f=(flash||[]).pop();)fc='flash '+f.type,flashes.push(f);
+
+#navbar(class=fc)
     a.logo(href='/' title='Noumena Home')
-    h1= title
+    //- We need a bit of complexity here because we'll add diferent markup/classes
+    //- depending on whether we have flash messages to display.
+    if flashes.length
+        h1(style='opacity:0')= title
+        each item in flashes
+            //- We'll build attributes manually, so as to skip "style" on last h1.
+            - var attr = item === flashes[flashes.length - 1] ? {} : {style: 'opacity:0'};
+            - attr.class = 'f-' + item.type;
+            h1&attributes(attr)= item.message
+    else
+        h1= title
     if loggedIn
         - var t = 'Logged in as "' + currentUser.name + '". Follow this link to log out.';
         a#account(href='/login' title=t)
