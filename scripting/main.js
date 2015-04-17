@@ -1,15 +1,15 @@
-var $        = require('jquery');
-var _        = require('lodash');
-var utils    = require('./src/utils.js');
-var autoload = require('./src/autoload.js')
+var $     = require('jquery');
+var _     = require('lodash');
+var utils = require('./src/utils');
 
-var pages = [
+var modules = [
+    require('./src/autoload'),
+    require('./src/flash'),
     require('./src/index')
 ];
 
 $(function() {
-    autoload(utils, $, _);
-    for (var i = 0; i < pages.length; i++) {
-        pages[i](utils, $, _);
+    for (var i = 0; i < modules.length; i++) {
+        modules[i](utils, $, _);
     };
 });
