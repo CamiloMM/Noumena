@@ -1,5 +1,6 @@
 
 // Index page module.
 module.exports = function(utils, $, _) {
-    console.log('index page module loaded');
+    window.$ = $; window.jQuery = $;
+    console.log('jQuery added as window.$ for development');
 }
