@@ -6,7 +6,7 @@ if get('css') && get('js')
             include favicons
             link(rel='stylesheet', href='/static/' + get('css').md5 + '.css')
             script(src='/static/' + get('js').md5 + '.js')
-        body
+        body.nojs
             include navbar
             #content
                 block content
