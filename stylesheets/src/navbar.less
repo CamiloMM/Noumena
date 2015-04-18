@@ -1,16 +1,35 @@
 #navbar {
     .above;
-    .bkg(#EEE);
+    .colors(#C4C4C4, #EEE);
     .dock-top(fixed, 48px);
     .pad(4px);
     .user-select-none;
     border-bottom: 2px solid @lightGrey;
+    transition: all 1s;
+
+    &.flash .logo { .hide; .disable; }
+
+    &.good   { .colors(#88AC7C, #ACDA9D, #9DC88F); #account{.nav-green } .icon.tick{.show} }
+    &.bad    { .colors(#C6877B, #FEAB9F, #E99E92); #account{.nav-red   } .icon.warn{.show} }
+    &.cool   { .colors(#8AA5B7, #B2D6EE, #A2C4D9); #account{.nav-blue  } .icon.info{.show} }
+    &.boring { .colors(#CEB17F, #FEDB9C, #EAC98F); #account{.nav-yellow} .icon.note{.show} }
+
+    .logo, .icon {
+        .dock-left(absolute, 40px);
+        margin: 8px;
+        transition: opacity 1s;
+    }
+
+    .icon.tick { .img-icon-tick; }
+    .icon.warn { .img-icon-warn; }
+    .icon.info { .img-icon-info; }
+    .icon.note { .img-icon-note; }
+
+    .icon { .hide; }
 
     .logo {
-        .dock-left(absolute, 40px);
         .img-logo-glyph;
         .no-outline;
-        margin: 8px;
 
         &:hover, &:focus {
             .img-logo-glyph-blue;
@@ -20,7 +39,6 @@
     h1 {
         .fill(absolute);
         .single-line(ellipsis);
-        color: #C4C4C4;
         font: 600 28px/40px @baseFont;
         margin: 6px 140px 6px 64px;
     }
