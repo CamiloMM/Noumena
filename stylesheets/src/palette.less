@@ -13,3 +13,18 @@
 @tangoBlue:       #729FCF;
 @tangoViolet:     #ad7fa8;
 @tangoGrey:       #a1a39d;
+
+// These filters were designed to change the colors of the (light grey) navbar.
+// For a visual comparison, see http://codepen.io/anon/pen/VLZpgz?editors=010
+.nav-yellow () { .filter(
+    grayscale(1) brightness(.75) contrast(1.1) sepia(1) hue-rotate(0deg)   saturate(1.3)
+)}
+.nav-red    () { .filter(
+    grayscale(1) brightness(.63) contrast(1.3) sepia(1) hue-rotate(-40deg) saturate(1.5)
+)}
+.nav-green  () { .filter(
+    grayscale(1) brightness(.67) contrast(1.3) sepia(1) hue-rotate(60deg)  saturate(1.1)
+)}
+.nav-blue   () { .filter(
+    grayscale(1) brightness(.67) contrast(1.4) sepia(1) hue-rotate(160deg) saturate(.8)
+)}
