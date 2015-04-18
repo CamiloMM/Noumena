@@ -1,5 +1,6 @@
 
 // This code handles flash messages, i.e., notifications atop the page (in the navbar).
+// Use them from node as req.flash('type', 'msg') where type is good|bad|cool|boring.
 
 module.exports = function(utils, $, _) {
     // Cache for last encountered flash type.
