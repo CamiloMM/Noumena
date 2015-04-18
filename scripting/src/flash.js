@@ -2,6 +2,9 @@
 // This code handles flash messages, i.e., notifications atop the page (in the navbar).
 
 module.exports = function(utils, $, _) {
+    // Cache for last encountered flash type.
+    var lastFlashType;
+
     // Animate the flash messages.
     function animateFlash() {
         // When only one h1 remains, it is the title.
@@ -9,6 +12,12 @@ module.exports = function(utils, $, _) {
 
         // The last h1 in the markup is the current flash.
         var elem = $('#navbar>h1').last();
+
+        // Set and get new types, where appropriate.
+        if (lastFlashType) $('#navbar').removeClass(lastFlashType);
+        lastFlashType = elem.data('flash-type');
+        $('#navbar').addClass(lastFlashType);
+
         elem
             .css({opacity: 0, top: 20})
             .animate({opacity: 1, top: 0}, 500)
@@ -24,12 +33,12 @@ module.exports = function(utils, $, _) {
 
     // Restore page title after last flash message.
     function restoreTitle() {
-        $('#navbar>h1')
+        $('#navbar')
+            .removeClass('flash ' + lastFlashType)
+            .children('h1')
             .css({opacity: 0, top: 20})
-            .animate({opacity: 1, top: 0}, 500)
+            .animate({opacity: 1, top: 0}, 500);
     }
 
-    // Doesn't need to be run immediately.
-    //_.defer(animateFlash);
     animateFlash();
 }
