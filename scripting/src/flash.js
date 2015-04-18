@@ -5,18 +5,21 @@ module.exports = function(utils, $, _) {
     // Cache for last encountered flash type.
     var lastFlashType;
 
+    // Don't transverse the whole DOM every time.
+    var navbar = $('#navbar');
+
     // Animate the flash messages.
     function animateFlash() {
         // When only one h1 remains, it is the title.
-        if ($('#navbar>h1').length < 2) return;
+        if (navbar.children('h1').length < 2) return;
 
         // The last h1 in the markup is the current flash.
-        var elem = $('#navbar>h1').last();
+        var elem = navbar.children('h1').last();
 
         // Set and get new types, where appropriate.
-        if (lastFlashType) $('#navbar').removeClass(lastFlashType);
+        if (lastFlashType) navbar.removeClass(lastFlashType);
         lastFlashType = elem.data('flash-type');
-        $('#navbar').addClass(lastFlashType);
+        navbar.addClass(lastFlashType);
 
         elem
             .css({opacity: 0, top: 20})
@@ -24,7 +27,7 @@ module.exports = function(utils, $, _) {
             .delay(4000)
             .animate({opacity: 0, top: -20}, 500, function() {
                 elem.remove();
-                if ($('#navbar>h1').length < 2)
+                if (navbar.children('h1').length < 2)
                     restoreTitle();
                 else
                     animateFlash();
@@ -33,7 +36,7 @@ module.exports = function(utils, $, _) {
 
     // Restore page title after last flash message.
     function restoreTitle() {
-        $('#navbar')
+        navbar
             .removeClass('flash ' + lastFlashType)
             .children('h1')
             .css({opacity: 0, top: 20})
