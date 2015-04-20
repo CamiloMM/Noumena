@@ -13,10 +13,9 @@
     if flashes.length
         h1(style='opacity:0')= title
         each item in flashes
-            //- We'll build attributes manually, so as to skip "style" on last h1.
+            //- We'll attach style attribute manually, so as to skip it on last h1.
             - var attr = item === flashes[flashes.length - 1] ? {} : {style: 'opacity:0'};
-            - attr['data-flash-type'] = item.type;
-            h1&attributes(attr)= item.message
+            h1(title=item.message data-flash-type=item.type)&attributes(attr)= item.message
     else
         h1= title
     if loggedIn
