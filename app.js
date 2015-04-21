@@ -11,7 +11,7 @@ var MongoStore   = require('connect-mongo')(session);
 var requireDir   = require('require-dir');
 var flash        = require('flash');
 
-var app = express();
+var app = module.exports = express();
 app.config = require('./config.json');
 mongoose.connect(app.config.dbUrl, {user: app.config.dbUser, pass: app.config.dbPass});
 app.db = mongoose.connection;
@@ -32,9 +32,6 @@ app.db.once('open', function callback () {
         secret: app.config.secret, // Make sure you edit this in your config.
         store: new MongoStore({mongooseConnection: mongoose.connection})
     };
-
-    // Make our app accessible to our router
-    app.use(function(req, res, next) { req.app = app; next(); });
 
     // Provide a function to call admin-only pages, that can redirect to login and back.
     app.use(function(req, res, next) {
@@ -108,6 +105,4 @@ app.db.once('open', function callback () {
     });
 });
 
-require('./app/setup')(app);
-
-module.exports = app;
+require('./app/setup')();

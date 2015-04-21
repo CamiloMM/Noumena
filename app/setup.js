@@ -7,7 +7,7 @@ var browserify   = require('browserify');
 var UglifyJS     = require('uglify-js');
 var LessCleanCSS = require('less-plugin-clean-css');
 var debug        = require('debug')('Noumena:setup');
-var app;
+var app          = require('../app.js');
 
 function buildCss(next, ensureDirectory) {
     var lessCleanCSS = new LessCleanCSS({
@@ -120,8 +120,7 @@ function autoCompile(directory, routine) {
 }
 
 // This setup mechanism is invoked before starting the server.
-function setup(instance) {
-    app = instance;
+function setup() {
     autoCompile('../stylesheets', buildCss);
     autoCompile('../scripting', buildJs);
 }

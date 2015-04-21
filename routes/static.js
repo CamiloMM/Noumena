@@ -1,11 +1,12 @@
 var express  = require('express');
 var router   = express.Router();
+var app      = require('../app.js');
 
 router.get('/static/:path(*)', function(req, res) {
     var types = {css: 'text/css', js: 'application/javascript'};
 
     for (type in types) {
-        var compiled = req.app.get(type);
+        var compiled = app.get(type);
         var pattern = new RegExp('^' + compiled.md5 + '\\.' + type + '$');
 
         if (pattern.test(req.params.path)) {
