@@ -36,6 +36,20 @@ app.db.once('open', function callback () {
     // Make our app accessible to our router
     app.use(function(req, res, next) { req.app = app; next(); });
 
+    // Provide a function to call admin-only pages, that can redirect to login and back.
+    app.use(function(req, res, next) {
+        req.adminOnly = function(callback) {
+            if (req.user && req.user.admin) {
+                callback();
+            } else {
+                req.flash('bad', 'You must be logged in as an admin to view that page.');
+                req.session.returnTo = req.originalUrl;
+                res.redirect('/login');
+            }
+        };
+        next();
+    });
+
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
