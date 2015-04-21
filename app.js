@@ -26,9 +26,10 @@ app.db.once('open', function callback () {
         // The cookie here is configured with maxAge of one year AND ONE MILLISECOND.
         // No, seriously, who was the genius that thought cookies age should be in ms??
         cookie: { path: '/', httpOnly: true, secure: false, maxAge: 31104000001 },
-        secret: app.config.secret, // Make sure you edit this in your config.
+        name: 'noumena-session',
         resave: true,
         saveUninitialized: true,
+        secret: app.config.secret, // Make sure you edit this in your config.
         store: new MongoStore({mongooseConnection: mongoose.connection})
     };
 
