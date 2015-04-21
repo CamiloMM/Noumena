@@ -33,19 +33,18 @@ app.db.once('open', function callback () {
         store: new MongoStore({mongooseConnection: mongoose.connection})
     };
 
-    // Provide a function to call admin-only pages, that can redirect to login and back.
-    app.use(function(req, res, next) {
-        req.adminOnly = function(callback) {
+    // Provide a way to call admin-only pages, that can redirect to login and back.
+    app.adminOnly = function(callback) {
+        return function(req, res) {
             if (req.user && req.user.admin) {
-                callback();
+                callback(req, res);
             } else {
                 req.flash('bad', 'You must be logged in as an admin to view that page.');
                 req.session.returnTo = req.originalUrl;
                 res.redirect('/login');
             }
         };
-        next();
-    });
+    };
 
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
