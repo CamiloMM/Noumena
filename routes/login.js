@@ -14,9 +14,15 @@ router.post('/login', function(req, res, next) {
             return res.redirect('/login');
         }
         req.logIn(user, function(err) {
-            if (err) { return next(err); }
+            if (err) return next(err);
             req.flash('good', 'Logged in as "' + user.name + '" successfully.');
-            return res.redirect('/projects');
+            if (req.session.returnTo) {
+                var url = req.session.returnTo;
+                delete req.session.returnTo;
+                return res.redirect(url);
+            } else {
+                return res.redirect('/');
+            }
         });
     })(req, res, next);
 });

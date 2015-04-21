@@ -6,6 +6,7 @@ router.get('/projects', function(req, res) {
         res.render('projects', { title: 'Projects' });
     } else {
         req.flash('bad', 'You must be logged in as an admin to view that page.');
+        req.session.returnTo = req.originalUrl;
         res.redirect('/login');
     }
 });
