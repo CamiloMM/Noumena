@@ -74,7 +74,8 @@ function buildJs(next, ensureDirectory) {
                 properties    : true,
                 screw_ie8     : true,
                 sequences     : true,
-                unused        : true
+                unused        : true,
+                unsafe        : true
             }
         };
 
