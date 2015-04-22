@@ -13,7 +13,14 @@ if get('css') && get('js')
 else
     html
         head
-            meta(http-equiv='refresh', content='5')
-        body
-            p(style='font: 14px sans-serif')
-                | CSS/JS is being compiled, refreshing in 5 seconds...
+            unless Object.keys(settings.errors).length
+                meta(http-equiv='refresh', content='5')
+        body(style='font: 14px sans-serif')
+            if Object.keys(settings.errors).length
+                p There may have been CSS/JS compilation problems, see:
+                dl
+                    each e, type in settings.errors
+                        dt: b= type + ' error: '
+                        dd: pre= e
+            else
+                p CSS/JS is being compiled, refreshing in 5 seconds...
