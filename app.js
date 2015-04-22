@@ -13,6 +13,7 @@ var flash        = require('flash');
 
 var app = module.exports = express();
 app.config = require('./config.json');
+app.set('errors', {}); // This will be a hash of type:instance, to log shit happening. 
 mongoose.connect(app.config.dbUrl, {user: app.config.dbUser, pass: app.config.dbPass});
 app.db = mongoose.connection;
 app.db.on('error', console.error.bind(console, 'connection error:'));

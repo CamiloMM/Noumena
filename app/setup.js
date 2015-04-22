@@ -9,6 +9,8 @@ var LessCleanCSS = require('less-plugin-clean-css');
 var debug        = require('debug')('Noumena:setup');
 var app          = require('../app.js');
 
+var errors = app.locals.settings.errors;
+
 function buildCss(next, ensureDirectory) {
     var lessCleanCSS = new LessCleanCSS({
         advanced: false, // It's buggy, was removing a background-clip:padding-box rule.
@@ -25,7 +27,10 @@ function buildCss(next, ensureDirectory) {
     less.render(code, options, function(error, output) {
         ensureDirectory();
 
-        if (error) { return less.writeError(error, options); }
+        if (error) {
+            errors.css = error;
+            return less.writeError(error, options);
+        }
 
         app.set('css', {
             md5:  crypto.createHash('md5').update(output.css).digest('hex'),
@@ -43,6 +48,7 @@ function buildJs(next, ensureDirectory) {
         ensureDirectory();
 
         if (err) {
+            errors.jsBundle = err;
             var js = 'alert("JS build error!\n\n"+' + JSON.stringify(String(err)) + ');';
         } else {
             var js = buf.toString();
@@ -72,7 +78,11 @@ function buildJs(next, ensureDirectory) {
             }
         };
 
-        var minified = UglifyJS.minify(js, options).code;
+        try {
+            var minified = UglifyJS.minify(js, options).code;
+        } catch (e) {
+            errors.jsMinify = e;
+        }
 
         app.set('js', {
             md5:  crypto.createHash('md5').update(minified).digest('hex'),
@@ -97,6 +107,7 @@ function autoCompile(directory, routine) {
             ensureDirectory();
             routine(next, ensureDirectory);
         } catch (e) {
+            errors.compileRoutine = e;
             debug('Compile routine error for ' + directory + ': \n' + e);
             next();
         }
@@ -116,13 +127,20 @@ function autoCompile(directory, routine) {
         }, 150);
     });
     // It's not like Chokidar is particularly helpful when it flops over and dies, but...
-    watcher.on('error', function(error){ debug('Chokidar error: ' + error); });
+    watcher.on('error', function(error) {
+        errors.chokidar = error;
+        debug('Chokidar error: ' + error);
+    });
 }
 
 // This setup mechanism is invoked before starting the server.
 function setup() {
-    autoCompile('../stylesheets', buildCss);
-    autoCompile('../scripting', buildJs);
+    try {
+        autoCompile('../stylesheets', buildCss);
+        autoCompile('../scripting', buildJs);
+    } catch(e) {
+        errors.setup = e;
+    }
 }
 
 module.exports = setup;
