@@ -10,6 +10,7 @@ var session      = require('express-session');
 var MongoStore   = require('connect-mongo')(session);
 var requireDir   = require('require-dir');
 var flash        = require('flash');
+var compression  = require('compression');
 
 var app = module.exports = express();
 app.config = require('./config.json');
@@ -51,6 +52,7 @@ app.db.once('open', function callback () {
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
 
+    app.use(compression());
     app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use(logger('dev'));
     app.use(bodyParser.json());
