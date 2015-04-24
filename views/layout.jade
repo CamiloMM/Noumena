@@ -1,11 +1,11 @@
 doctype html
-if get('css') && get('js')
+if settings.css && settings.js
     html
         head
             title= title
             include favicons
-            link(rel='stylesheet', href='/static/' + get('css').md5 + '.css')
-            script(src='/static/' + get('js').md5 + '.js')
+            link(rel='stylesheet', href='/static/' + settings.css.md5 + '.css')
+            script(src='/static/' + settings.js.md5 + '.js')
         body.nojs
             include navbar
             #content
