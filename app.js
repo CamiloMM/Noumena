@@ -28,10 +28,13 @@ app.db = mongoose.connection;
 app.db.on('error', console.error.bind(console, 'connection error:'));
 app.db.once('open', function callback () {
 
+    // Models just need to be required.
     requireDir('./models');
 
+    // This is a passport instance configured in a separate file.
     var passport = require('./app/passport');
 
+    // Settings for express-session.
     var sessionSettings = {
         // The cookie here is configured with maxAge of one year AND ONE MILLISECOND.
         // No, seriously, who was the genius that thought cookies age should be in ms??
@@ -44,6 +47,7 @@ app.db.once('open', function callback () {
     };
 
     // Provide a way to call admin-only pages, that can redirect to login and back.
+    // This is based on setting req.session.returnTo, and reading it on the login route.
     app.adminOnly = function(callback) {
         return function(req, res) {
             if (req.user && req.user.admin) {
@@ -60,6 +64,7 @@ app.db.once('open', function callback () {
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
 
+    // Set up middleware.
     app.use(compression());
     app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use(logger('dev'));
@@ -72,13 +77,14 @@ app.db.once('open', function callback () {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // Load local variables for templates.
+    // Load some variables for templates.
     app.all('*', function(req, res, next) {
         res.locals.loggedIn = !!req.user;
         res.locals.currentUser = req.user;
         next();
     });
 
+    // Routes only need to be required to work, in our workflow.
     var routes = requireDir('./routes');
     for (var i in routes) app.use('/', routes[i]);
 
@@ -89,27 +95,12 @@ app.db.once('open', function callback () {
         next(err);
     });
 
-    /// error handlers
-
-    // development error handler
-    // will print stacktrace
-    if (app.get('env') === 'development') {
-        app.use(function(err, req, res, next) {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: err
-            });
-        });
-    }
-
-    // production error handler
-    // no stacktraces leaked to user
+    // Error handler. only in development stacktrace will be printed.
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: {}
+            error: app.get('env') === 'development' ? err | {}
         });
     });
 });
