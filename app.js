@@ -16,14 +16,14 @@ var compression  = require('compression');
 var app = module.exports = express();
 
 // Load the configuration JSON.
-app.config = require('./config.json');
+var config = require('./config.json');
 
 // This will be a hash of type:instance, to log shit happening. 
 app.set('errors', {});
 
 // Connect to DB and start the app when connection is established.
 // We don't need fancy error logging here because app will die if this fails.
-mongoose.connect(app.config.dbUrl, {user: app.config.dbUser, pass: app.config.dbPass});
+mongoose.connect(config.dbUrl, {user: config.dbUser, pass: config.dbPass});
 app.db = mongoose.connection;
 app.db.on('error', console.error.bind(console, 'connection error:'));
 app.db.once('open', function callback () {
@@ -39,7 +39,7 @@ app.db.once('open', function callback () {
         name: 'noumena-session',
         resave: true,
         saveUninitialized: true,
-        secret: app.config.secret, // Make sure you edit this in your config.
+        secret: config.secret, // Make sure you edit this in your config.
         store: new MongoStore({mongooseConnection: mongoose.connection})
     };
 
