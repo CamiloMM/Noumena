@@ -30,7 +30,7 @@ app.db.once('open', function callback () {
 
     requireDir('./models');
 
-    app.passport = require('./app/passport');
+    var passport = require('./app/passport');
 
     var sessionSettings = {
         // The cookie here is configured with maxAge of one year AND ONE MILLISECOND.
@@ -69,8 +69,8 @@ app.db.once('open', function callback () {
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(session(sessionSettings));
     app.use(flash());
-    app.use(app.passport.initialize());
-    app.use(app.passport.session());
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     // Load local variables for templates.
     app.all('*', function(req, res, next) {
