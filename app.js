@@ -12,9 +12,17 @@ var requireDir   = require('require-dir');
 var flash        = require('flash');
 var compression  = require('compression');
 
+// Export the app instance too, for referencing in other files.
 var app = module.exports = express();
+
+// Load the configuration JSON.
 app.config = require('./config.json');
-app.set('errors', {}); // This will be a hash of type:instance, to log shit happening. 
+
+// This will be a hash of type:instance, to log shit happening. 
+app.set('errors', {});
+
+// Connect to DB and start the app when connection is established.
+// We don't need fancy error logging here because app will die if this fails.
 mongoose.connect(app.config.dbUrl, {user: app.config.dbUser, pass: app.config.dbPass});
 app.db = mongoose.connection;
 app.db.on('error', console.error.bind(console, 'connection error:'));
