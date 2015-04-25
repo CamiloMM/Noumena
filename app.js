@@ -1,16 +1,17 @@
-var express      = require('express');
-var path         = require('path');
-var favicon      = require('serve-favicon');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var ObjectId     = require('mongodb').ObjectID;
-var mongoose     = require('mongoose');
-var session      = require('express-session');
-var MongoStore   = require('connect-mongo')(session);
-var requireDir   = require('require-dir');
-var flash        = require('flash');
-var compression  = require('compression');
+var express       = require('express');
+var path          = require('path');
+var favicon       = require('serve-favicon');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var ObjectId      = require('mongodb').ObjectID;
+var mongoose      = require('mongoose');
+var session       = require('express-session');
+var MongoStore    = require('connect-mongo')(session);
+var requireDir    = require('require-dir');
+var flash         = require('flash');
+var compression   = require('compression');
+var autoincrement = require('autoincrement');
 
 // Export the app instance too, for referencing in other files.
 var app = module.exports = express();
@@ -81,6 +82,7 @@ app.db.once('open', function callback () {
     app.all('*', function(req, res, next) {
         res.locals.loggedIn = !!req.user;
         res.locals.currentUser = req.user;
+        res.locals.autoincrement = autoincrement;
         next();
     });
 
