@@ -29,6 +29,10 @@ function buildCss(next, ensureDirectory) {
 
         if (error) {
             errors.css = error;
+            setTimeout(function() {
+                ensureDirectory();
+                buildCss(next, ensureDirectory)
+            }, 1000);
             return less.writeError(error, options);
         }
 
@@ -114,7 +118,9 @@ function autoCompile(directory, routine) {
         }
         next();
     }
+
     compile();
+
     var watcher = chokidar.watch(absolute);
     var timeout = null;
     watcher.on('all', function change() {
