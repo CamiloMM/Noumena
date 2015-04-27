@@ -1,6 +1,8 @@
 
 //- If we have flashes to display, we'll read them all and add a class to the navbar.
-- for(var fc,flashes=[],f;f=(flash||[]).pop();)fc='flash '+f.type,flashes.push(f);
+//- First, we add an autoincrement marker to each.
+- flash.forEach(function(f) { f.increment = +autoincrement; });
+- for(var fc,flashes=[],f;f=flash.pop();)fc='flash '+f.type,flashes.push(f);
 //- Yay one-liners.
 
 #navbar(class=fc)
@@ -16,7 +18,7 @@
         each item in flashes
             //- We'll attach style attribute manually, so as to skip it on last h1.
             - var attr = item === flashes[flashes.length - 1] ? {} : {style: 'opacity:0'};
-            - attr['data-increment'] = +autoincrement;
+            - attr['data-increment'] = item.increment;
             h1(title=item.message data-flash-type=item.type)&attributes(attr)= item.message
     else
         h1= title
