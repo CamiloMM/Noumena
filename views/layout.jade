@@ -20,8 +20,27 @@ else
                 p There may have been CSS/JS compilation problems, see:
                 dl
                     each e, type in settings.errors
-                        dt: b= type + ' error: '
-                        dd: pre= e
+                        dt: h3
+                            | #{type} 
+                            if e.type
+                                i= e.type
+                            if e.filename
+                                |  error on 
+                                code= e.filename + (e.line ? ':' + e.line : '')
+                            else
+                                | error
+                        dd: pre
+                            if e.message
+                                b= e.message
+                            if e.extract
+                                br
+                                div(style='background:#F8F8F8;display:inline-block')
+                                    each line, index in e.extract
+                                        if (index > 0 && index < e.extract.length - 1)
+                                            span(style='background: #FEE')= line
+                                        else
+                                            span= line
+                                        br
                 p Note that these may be transitory (LESS sometimes coughs random ENOENTs).
             else
                 p CSS/JS is being compiled, refreshing in 5 seconds...
