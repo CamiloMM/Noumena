@@ -37,7 +37,7 @@ Events are composed of a number of fields:
 | `action` | UTF-8 string | What kind of thing happened. Example: "View" |
 | `data` | JSON object | Data describing the action. Example: `{"id": 34, "date": "2015-03-05T10:40:38.723Z"}` |
 
-The last field is optional, and defaults to `null`.
+The last field is optional, and when not specified, defaults to an auto-incrementing integer starting from `1`. Both formats can co-exist; in which case a variety of rows will describe event items with data and one will count the data-less events.
 
 The server instance will store all events received in a NoSQL database, indexed for the first three fields, and possibly other fields within `data`.
 
@@ -85,7 +85,7 @@ It is very important that this is simple enough to do, but very expressive. For 
 
 # Current Status
 
-I'm just getting started. This is all a messy thing and I'm unsure where it will lead me. Come back in a month.
+Front-end is progressing very well, and I'm working on the DB layer. Come back in another month.
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [ISO 3166-1 alpha-2]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
