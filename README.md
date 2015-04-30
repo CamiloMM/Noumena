@@ -56,12 +56,20 @@ Adding certain "flags" when logging an event will add automatic properties to it
 | `t` | `time` will contain the current time and date as an [Unix Epoch timestamp]. |
 | `a` | `agent` will contain a string describing the user-agent of the request (if available). |
 | `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). |
-| `f` | Store an user's `fingerprint`, which is stable enough to identify a single user through one or more sessions, but variable enough that it will avoid most collisions. |
-| `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). |
-| `h` | `headers` will be an object containing the http headers for the request. |
-| `*` | Equivalent to specifying all flags (use for debug only). |
+| `f` | Store an user's `fingerprint`, which is stable enough to identify a single user through one or more sessions, but variable enough that it will avoid most collisions. This should be a 32-bit int taken from the first 4 bytes of an md5 of a set of data. |
+| `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). Note: we'll use the [`autoincrement`][autoincrement] module. |
+| `h` | `headers` will be an object containing the http headers for the request. Note this is very space-consuming. |
+| `s` | Skip `count` checking (see below). This is implied for `t`, `n` and `h`, plus any key that resolves to an object or array (which are too expensive to check for equality). Use it when data has minimal possible redundancy. |
+| `*` | Meta-flag, equivalent to specifying all flags (use for debug only). |
+| `-` | Meta-flag, which means "no flags". In case an API defines default flags, this specifies that none are desired. As an extra feature, if this flag is encountered, all others are disregarded. |
 
-To avoid confusion, refrain from adding fields in `data` with the names `ip`, `lat`, `lon`, `country`, `geo`, `time`, `agent`, `browser`, `fingerprint`, `num` and `headers`.
+### `count`
+
+Similar to how data-less elements will contain an auto-incrementing number indicating how many such events have happened, events with a data object will contain a `count` key indicating how many duplicates of the same event have been recorded. This is not always calculated, the idea is to trade off space for speed when required.
+
+##### Note
+
+To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `lat`, `lon`, `country`, `geo`, `time`, `agent`, `browser`, `fingerprint`, `num`, `headers`, and also, `count` (unless, of course, you're setting these with custom logic and know what you're doing).
 
 ### Logging methods
 
@@ -83,6 +91,12 @@ Views will be templates that you can code (with help of an API), upload to the s
 
 It is very important that this is simple enough to do, but very expressive. For this reason, I'm guessing the best way to approach this is uploading .js files to the server and visiting an URL, without any more fuss than that.
 
+### Collections
+
+There will be separate collections for data-less elements and elements with data objects. This is because it'll be much faster to query the former; and it'll likely stay fully in RAM all the time this way.
+
+This must be kept in mind when querying; and special queries might be crafted that ***explicitly*** ignore events with `data`. These will run faster, but it must be clear that one is choosing to ignore a collection.
+
 # Current Status
 
 Front-end is progressing very well, and I'm working on the DB layer. Come back in another month.
@@ -90,3 +104,4 @@ Front-end is progressing very well, and I'm working on the DB layer. Come back i
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [ISO 3166-1 alpha-2]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 [Unix Epoch timestamp]: http://en.wikipedia.org/wiki/Unix_time
+[autoincrement]: https://npmjs.com/package/autoincrement
