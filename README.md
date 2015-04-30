@@ -37,7 +37,7 @@ Events are composed of a number of fields:
 | `action` | UTF-8 string | What kind of thing happened. Example: "View" |
 | `data` | JSON object | Data describing the action. Example: `{"id": 34, "date": "2015-03-05T10:40:38.723Z"}` |
 
-The last field is optional, and when not specified, defaults to an auto-incrementing integer starting from `1`. Both formats can co-exist; in which case a variety of rows will describe event items with data and one will count the data-less events.
+The last field is optional, and when not specified, defaults to an auto-incrementing integer starting from `1` (and then is internally called `count`). Both formats can co-exist; in which case a variety of rows will describe event items with data and one will count the data-less events.
 
 The server instance will store all events received in a NoSQL database, indexed for the first three fields, and possibly other fields within `data`.
 
