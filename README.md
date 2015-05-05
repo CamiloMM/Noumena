@@ -32,11 +32,11 @@ Events are composed of a number of fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `project` | UTF-8 string | Name of the project being tracked. Example: "Personal Blog" |
-| `category` | UTF-8 string | What does the event deal with. Example: "Posts" |
-| `action` | UTF-8 string | What kind of thing happened. Example: "View" |
+| `project` | UTF-8 String | Name of the project being tracked. Example: "Personal Blog" |
+| `category` | UTF-8 String | What does the event deal with. Example: "Posts" |
+| `action` | UTF-8 String | What kind of thing happened. Example: "View" |
 | `data` | Object | Data describing the action. Example: `{"id": 34, "date": "2015-03-05T10:40:38.723Z"}` |
-| `hash` | A hex representation of an MD5 of `data`, generated with [`object-hash`][object-hash]. |
+| `hash` | String | A hex representation of an MD5 of `data`, generated with [`object-hash`][object-hash]. |
 | `count` | Unsigned Int | Number of duplicates of this exact event (including `data` via the indexed `hash`). |
 
 The `data` field is optional, and events without it also won't contain the `hash` field (and, will be stored as a separate collection internally).
