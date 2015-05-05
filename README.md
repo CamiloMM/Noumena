@@ -35,19 +35,23 @@ Events are composed of a number of fields:
 | `project` | UTF-8 string | Name of the project being tracked. Example: "Personal Blog" |
 | `category` | UTF-8 string | What does the event deal with. Example: "Posts" |
 | `action` | UTF-8 string | What kind of thing happened. Example: "View" |
-| `data` | JSON object | Data describing the action. Example: `{"id": 34, "date": "2015-03-05T10:40:38.723Z"}` |
+| `data` | Object | Data describing the action. Example: `{"id": 34, "date": "2015-03-05T10:40:38.723Z"}` |
+| `hash` | A hex representation of an MD5 of `data`, generated with [`object-hash`][object-hash]. |
+| `count` | Unsigned Int | Number of duplicates of this exact event (including `data` via the indexed `hash`). |
 
-The last field is optional, and when not specified, defaults to an auto-incrementing integer starting from `1` (and then is internally called `count`). Both formats can co-exist; in which case a variety of rows will describe event items with data and one will count the data-less events.
+The `data` field is optional, and events without it also won't contain the `hash` field (and, will be stored as a separate collection internally).
 
-The server instance will store all events received in a NoSQL database, indexed for the first three fields, and possibly other fields within `data`.
+The server instance will store all events received in a NoSQL database, indexed for the first three and last two fields, and possibly other sub-fields within `data`.
 
-The last field is a JSON object, and as such, can hold anything. Realistically, you should keep it consistent so it's easier to gather info from it later.
+The `data` field is a JSON object, and as such, can hold anything. Realistically, you should keep it consistent and terse so it's easier and faster to gather info from it later.
 
 Note how this system does not provide distinction between event types: if you want to record a "pageview", record an event that describes a pageview.
 
 ### Flags
 
 Adding certain "flags" when logging an event will add automatic properties to it. Each flag is a single letter, and each logging method will provide a way to pass flags.
+
+Note that this is more or less syntactic sugar for logging; it's just to ensure consistency and simplicity, but there's never just one way to do things when you can log a whole object.
 
 | Flag | Description |
 |------|-------------|
@@ -65,7 +69,7 @@ Adding certain "flags" when logging an event will add automatic properties to it
 
 ### `count`
 
-Similar to how data-less elements will contain an auto-incrementing number indicating how many such events have happened, events with a data object will contain a `count` key indicating how many duplicates of the same event have been recorded. This is not always calculated, the idea is to trade off space for speed when required.
+Similar to how data-less elements will contain an auto-incrementing number indicating how many such events have happened, events with a data object will contain a `count` key indicating how many duplicates of the same event have been recorded. This is calculated by matching an indexed hash of the object.
 
 ##### Note
 
@@ -102,6 +106,7 @@ This must be kept in mind when querying; and special queries might be crafted th
 Front-end is progressing very well, and I'm working on the DB layer. Come back in another month.
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
+[object-hash]: https://npmjs.com/package/object-hash
 [ISO 3166-1 alpha-2]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 [Unix Epoch timestamp]: http://en.wikipedia.org/wiki/Unix_time
 [autoincrement]: https://npmjs.com/package/autoincrement
