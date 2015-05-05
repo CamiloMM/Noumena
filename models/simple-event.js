@@ -9,7 +9,7 @@ var simpleEventSchema = new Schema({
     project   : String,
     category  : String,
     action    : String,
-    count     : {type: Number, default: 0} // This is where the 'data' key would've been.
+    count     : {type: Number, default: 0}
 });
 
 var SimpleEvent = mongoose.model('SimpleEvent', simpleEventSchema);

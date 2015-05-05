@@ -9,6 +9,8 @@ var dataEventSchema = new Schema({
     project   : String,
     category  : String,
     action    : String,
+    count     : {type: Number, default: 0},
+    hash      : String, // MD5 hex string of data object, generated via object-hash module.
     data      : {} // Note this technically means mixed; we need to enforce object.
 });
 
