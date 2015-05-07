@@ -9,8 +9,11 @@ var simpleEventSchema = new Schema({
     project   : String,
     category  : String,
     action    : String,
-    count     : {type: Number, default: 0}
+    count     : {type: Number, default: 0, index: true}
 });
+
+// Compound index because these fields are treated like namespaces.
+simpleEventSchema.index({project: 1, category: 1, unique: 1});
 
 var SimpleEvent = mongoose.model('SimpleEvent', simpleEventSchema);
 
