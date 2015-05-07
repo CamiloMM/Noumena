@@ -13,7 +13,7 @@ var simpleEventSchema = new Schema({
 });
 
 // Compound index because these fields are treated like namespaces.
-simpleEventSchema.index({project: 1, category: 1, unique: 1});
+simpleEventSchema.index({project: 1, category: 1, action: 1});
 
 var SimpleEvent = mongoose.model('SimpleEvent', simpleEventSchema);
 
