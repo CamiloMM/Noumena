@@ -56,7 +56,7 @@ Note that this is more or less syntactic sugar for logging; it's just to ensure 
 | Flag | Description |
 |------|-------------|
 | `i` | `ip` field will contain the IP address from where the request came as a string such as `123.4.56.789` |
-| `g` | `lat` will contain latitude, `lon` will contain longitude, and `country` will contain the [ISO 3166-1 alpha-2] country code, all strings, all guessed from the IP of the request. Note that setting `g` will use the IP but you still must specify `i` if you want it recorded. the special field `geo` will be a constant `true` value, to indicate the presence of the other three. |
+| `g` | `lat` will contain latitude, `lon` will contain longitude, and `country` will contain the [ISO 3166-1 alpha-2] country code, all strings, all guessed from the IP of the request. Note that setting `g` will use the IP but you still must specify `i` if you want it recorded. |
 | `t` | `time` will contain the current time and date as an [Unix Epoch timestamp]. |
 | `a` | `agent` will contain a string describing the user-agent of the request (if available). |
 | `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). |
@@ -64,7 +64,7 @@ Note that this is more or less syntactic sugar for logging; it's just to ensure 
 | `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). Note: we'll use the [`autoincrement`][autoincrement] module. |
 | `h` | `headers` will be an object containing the http headers for the request. Note this is very space-consuming. |
 | `s` | Skip `count` checking (see below). This is implied for `t`, `n` and `h`, plus any key that resolves to an object or array (which are too expensive to check for equality). Use it when data has minimal possible redundancy. |
-| `*` | Meta-flag, equivalent to specifying all flags (use for debug only). |
+| `*` | Meta-flag, equivalent to specifying all above flags (use for debug only). |
 | `-` | Meta-flag, which means "no flags". In case an API defines default flags, this specifies that none are desired. As an extra feature, if this flag is encountered, all others are disregarded. |
 
 ### `count`
@@ -73,7 +73,7 @@ Similar to how data-less elements will contain an auto-incrementing number indic
 
 ##### Note
 
-To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `lat`, `lon`, `country`, `geo`, `time`, `agent`, `browser`, `fingerprint`, `num`, `headers`, and also, `count` (unless, of course, you're setting these with custom logic and know what you're doing).
+To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `lat`, `lon`, `country`, `time`, `agent`, `browser`, `fingerprint`, `num` and `headers` (unless, of course, you're setting these with custom logic and know what you're doing).
 
 ### Logging methods
 
