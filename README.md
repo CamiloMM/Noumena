@@ -56,7 +56,7 @@ Note that this is more or less syntactic sugar for logging; it's just to ensure 
 | Flag | Description |
 |------|-------------|
 | `i` | `ip` field will contain the IP address from where the request came as a string such as `123.4.56.789` |
-| `g` | `lat` will contain latitude, `lon` will contain longitude, and `country` will contain the [ISO 3166-1 alpha-2] country code, all strings, all guessed from the IP of the request. Note that setting `g` will use the IP but you still must specify `i` if you want it recorded. |
+| `g` | `geo` will contain an array of `[lon, lat]`, and `country` will contain the [ISO 3166-1 alpha-2] country code, both either guessed from the IP of the request or some other API. Note that setting `g` may use the IP but you still must specify `i` if you want it recorded. |
 | `t` | `time` will contain the current time and date as an [Unix Epoch timestamp]. |
 | `a` | `agent` will contain a string describing the user-agent of the request (if available). |
 | `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). |
@@ -73,7 +73,7 @@ Similar to how data-less elements will contain an auto-incrementing number indic
 
 ##### Note
 
-To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `lat`, `lon`, `country`, `time`, `agent`, `browser`, `fingerprint`, `num` and `headers` (unless, of course, you're setting these with custom logic and know what you're doing).
+To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `geo`, `country`, `time`, `agent`, `browser`, `fingerprint`, `num` and `headers` (unless, of course, you're setting these with custom logic and know what you're doing).
 
 ### Logging methods
 
