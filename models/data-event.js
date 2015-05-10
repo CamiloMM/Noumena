@@ -19,15 +19,15 @@ var dataEventSchema = new Schema({
 dataEventSchema.index({project: 1, category: 1, action: 1});
 
 // These fields may (or may not) be set by flags, so they are sparsely indexed.
-dataEventSchema.path('data.ip'         ).index({sparse: true});
-dataEventSchema.path('data.lat'        ).index({sparse: true});
-dataEventSchema.path('data.lon'        ).index({sparse: true});
-dataEventSchema.path('data.country'    ).index({sparse: true});
-dataEventSchema.path('data.time'       ).index({sparse: true});
-dataEventSchema.path('data.agent'      ).index({sparse: true});
-dataEventSchema.path('data.browser'    ).index({sparse: true});
-dataEventSchema.path('data.fingerprint').index({sparse: true});
-dataEventSchema.path('data.num'        ).index({sparse: true, unique: true});
+dataEventSchema.index({'data.ip'         : 1}, {sparse: true});
+dataEventSchema.index({'data.lat'        : 1}, {sparse: true});
+dataEventSchema.index({'data.lon'        : 1}, {sparse: true});
+dataEventSchema.index({'data.country'    : 1}, {sparse: true});
+dataEventSchema.index({'data.time'       : 1}, {sparse: true});
+dataEventSchema.index({'data.agent'      : 1}, {sparse: true});
+dataEventSchema.index({'data.browser'    : 1}, {sparse: true});
+dataEventSchema.index({'data.fingerprint': 1}, {sparse: true});
+dataEventSchema.index({'data.num'        : 1}, {sparse: true, unique: true});
 
 var DataEvent = mongoose.model('DataEvent', dataEventSchema);
 
