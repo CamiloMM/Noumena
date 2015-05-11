@@ -1,4 +1,9 @@
 extends layout
 
 block content
-    p (This is a placeholder for the Projects page.)
+    if projects
+        .centered-buttons
+            each project in projects
+                a.button(href='/project/' + project)= project
+    else
+        p(style='text-align:center') There was some error getting the projects!
