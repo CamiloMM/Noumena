@@ -13,6 +13,23 @@ function normalizeNamespaceFragment(fragment) {
     return fragment.trim().replace(/[\/\\]/g, '');
 }
 
+// Records a simple event, i.e., one without a data object.
+// A callback(error) can be passed.
+exports.registerSimpleEvent = function(project, category, action, callback) {
+    var normalized = {
+        project : normalizeNamespaceFragment(project),
+        category: normalizeNamespaceFragment(category),
+        action  : normalizeNamespaceFragment(action)
+    };
+    var update = {
+        $setOnInsert: _.merge({}, normalized, {count: 1}),
+        $inc: {count: 1}
+    };
+    SimpleEvent.findOneAndUpdate(normalized, update, {upsert: true}, function(e) {
+        if (callback) callback(e);
+    });
+};
+
 // Gets projects, and gives them to a callback that does something with them.
 // Will call the callback with an array of project names, or null on error.
 exports.getProjects = function(callback) {
