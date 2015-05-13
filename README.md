@@ -39,6 +39,8 @@ Events are composed of a number of fields:
 | `hash` | String | A hex representation of an MD5 of `data`, generated with [`object-hash`][object-hash]. |
 | `count` | Unsigned Int | Number of duplicates of this exact event (including `data` via the indexed `hash`). |
 
+The `project`, `category` and `action` fields may not contain slashes and are `trim`'d.
+
 The `data` field is optional, and events without it also won't contain the `hash` field (and, will be stored as a separate collection internally).
 
 The server instance will store all events received in a NoSQL database, indexed for the first three and last two fields, and possibly other sub-fields within `data`.

@@ -7,6 +7,12 @@ var DataEvent   = mongoose.model('DataEvent');
 // I've decided to abstract them in a single file so other files
 // don't have to worry about db logic.
 
+// project, category and action are namespace fragments.
+// This function ensures the fragment is trimmed and doesn't contain slashes.
+function normalizeNamespaceFragment(fragment) {
+    return fragment.trim().replace(/[\/\\]/g, '');
+}
+
 // Gets projects, and gives them to a callback that does something with them.
 // Will call the callback with an array of project names, or null on error.
 exports.getProjects = function(callback) {
