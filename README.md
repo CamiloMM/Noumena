@@ -65,7 +65,7 @@ Note that this is more or less syntactic sugar for logging; it's just to ensure 
 | `f` | Store an user's `fingerprint`, which is stable enough to identify a single user through one or more sessions, but variable enough that it will avoid most collisions. This should be a 32-bit int taken from the first 4 bytes of an md5 of a set of data. |
 | `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). Note: we'll use the [`autoincrement`][autoincrement] module. |
 | `h` | `headers` will be an object containing the http headers for the request. Note this is very space-consuming. |
-| `s` | Skip `count` checking (see below). This is implied for `t`, `n` and `h`, plus any key that resolves to an object or array (which are too expensive to check for equality). Use it when data has minimal possible redundancy. |
+| `s` | Skip `count` checking (see below). This is implied for `t`, `n` and `h`. Use it when data has minimal possible redundancy and you want to save the server's time. |
 | `*` | Meta-flag, equivalent to specifying all above flags (use for debug only). |
 | `-` | Meta-flag, which means "no flags". In case an API defines default flags, this specifies that none are desired. As an extra feature, if this flag is encountered, all others are disregarded. |
 
