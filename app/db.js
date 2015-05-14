@@ -1,5 +1,6 @@
 var mongoose    = require('mongoose');
 var _           = require('lodash');
+var objectHash  = require('object-hash');
 var SimpleEvent = mongoose.model('SimpleEvent');
 var DataEvent   = mongoose.model('DataEvent');
 
@@ -27,6 +28,28 @@ exports.registerSimpleEvent = function(project, category, action, callback) {
     };
     var options = {upsert: true, select: {}};
     SimpleEvent.findOneAndUpdate(normalized, update, options, function(e) {
+        if (callback) callback(e);
+    });
+};
+
+// Registers a data event. This is more involved than a simple event, and
+// involves hashing. Flags are part of the data event logic, but should be
+// handled prior to this step (in other words, the data object passed
+// is expected to be final).
+exports.registerDataEvent = function(project, category, action, data, callback) {
+    var hash = {hash: objectHash.MD5(data)};
+    var normalized = {
+        project : normalizeNamespaceFragment(project),
+        category: normalizeNamespaceFragment(category),
+        action  : normalizeNamespaceFragment(action)
+    };
+    var update = {
+        $setOnInsert: _.merge({}, normalized, {count: 1}, hash, {data: data}),
+        $inc: {count: 1}
+    };
+    var query = _.merge({}, hash, normalized);
+    var options = {upsert: true, select: {}};
+    DataEvent.findOneAndUpdate(query, update, options, function(e) {
         if (callback) callback(e);
     });
 };
