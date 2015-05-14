@@ -25,7 +25,8 @@ exports.registerSimpleEvent = function(project, category, action, callback) {
         $setOnInsert: _.merge({}, normalized, {count: 1}),
         $inc: {count: 1}
     };
-    SimpleEvent.findOneAndUpdate(normalized, update, {upsert: true}, function(e) {
+    var options = {upsert: true, select: {}};
+    SimpleEvent.findOneAndUpdate(normalized, update, options, function(e) {
         if (callback) callback(e);
     });
 };
