@@ -90,6 +90,17 @@ The methods will be documented in length when they're ready. Preliminarly, they'
 * **Local API** (for use within the server instance)
 * **Remote API(s)** (such as a wrapper node module)
 
+### Endpoint
+
+Since we never know what we'll need next (that proxy-busting SVG hack is a good example), it must be a pluggable system. All the logging methods will be HTTP-based, for now.
+
+From that starting point, here is how it'll work:
+
+* All logging methods will be defined as javascript files required from `./endpoints`.
+* They will all `require('../app/endpoint.js')`, which defines their API.
+* Each file may define any number of event-logging facilities.
+* Adding more files and restarting the server is all it takes to use new versions.
+
 ### Views
 
 Views will be templates that you can code (with help of an API), upload to the server, and use to make sense of data. You'll go to a web interface, choose a view, and it will render a neat report of the events.
