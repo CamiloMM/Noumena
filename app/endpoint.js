@@ -13,8 +13,19 @@ var endpoints = {};
 // Registers an endpoint with a given name, for a specific method of a protocol.
 // An endpoint may not be registered twice; unless options.[ignore|override] are true.
 // None of the first three arguments may contain a "/".
+// The first three arguments can be collapsed as a string: 'protocol/method/name'
 exports.register = function(protocol, method, name, endpoint, options) {
-    options = options || {}; // Options are optional.
+    // Accept collapsed first argument.
+    if (!endpoint) {
+        options = name;
+        endpoint = method;
+        name = protocol.split('/')[2];
+        method = protocol.split('/')[1];
+        protocol = protocol.split('/')[0];
+    }
+
+    // Options are optional.
+    options = options || {};
 
     // Build namespace if it doesn't exist already.
     if (!endpoints[protocol]) endpoints[protocol] = {};
