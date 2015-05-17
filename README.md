@@ -4,7 +4,7 @@
 
 I believe information is key to everything. Knowing why your application crashed from a remote report is much more reliable than waiting for bug reports to crop up on an issue tracker.
 
-So I need an event tracking system. One that's easy to use, easy to understand, very predictable and doesn't make too many assumptions on what you're using it for. Having taken a look at Google Analytics, it's totally unsuitable to anything other than a website, and *one that accepts javascript* at that (so it's not useful for sites where you may just have an account, even though images could work as a tracker beacon). Plus, unless you're one of those people that worry more about search engines than the raw quality of a product, you very likely do not understand all of Google Analytics huge arrangement of tools and features.
+So I need an event tracking system. One that's easy to use, easy to understand, very predictable and doesn't make too many assumptions on what you're using it for. Having taken a look at Google Analytics, it's totally unsuitable to anything other than a website, and *one that accepts javascript* at that (so it's not useful for sites where you may just have an account, even though images could work as a tracker beacon). Plus, unless you're one of those people that worry more about search engines than the raw quality of a product, you very likely do not understand all of Google Analytics huge arrangement of (SEO-oriented) tools and features.
 
 In other words, I believe in a simple tool that can bend itself to varied use-cases and doesn't require much fore-thought into it, and especially not implementation difficulties where no technical limitation existed. Have something you want logged? Just log it, and later you'll figure out what to do with it. Can only embed images? No problem, because that shouldn't stop you.
 
@@ -99,7 +99,9 @@ From that starting point, here is how it'll work:
 * All logging methods will be defined as javascript files required from `./endpoints`.
 * They will all `require('../app/endpoint.js')`, which defines their API.
 * Each file may define any number of event-logging facilities.
-* Adding more files and restarting the server is all it takes to use new versions.
+* Adding more files and restarting the server is all it takes to use new endpoints.
+* HTTP events will take the form /event/*name*/*\[arguments\]*
+* All events can handle flags, data and whatnot in their own ways.
 
 ### Views
 
