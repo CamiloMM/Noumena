@@ -4,18 +4,36 @@ var db = require('./db.js');
 // This file defines methods that can be called from ./endpoints in order to expose
 // their logic. All ./endpoints should include this file and *only* this file.
 
-// Expose DB to endpoints. We may revisit this approach if it's too crude.
-exports.db = db;
-
 // Actual endpoints are stored in this object.
 var endpoints = {};
+
+// Calling endpoint as a function will return an endpoint instance or throw.
+function endpoint(protocol, method, name) {
+    // Accept first argument to be 'protocol/method/name'.
+    if (!name) {
+        name = protocol.split('/')[2];
+        method = protocol.split('/')[1];
+        protocol = protocol.split('/')[0];
+    }
+
+    // Normalize method to uppercase.
+    method = method.toUpperCase();
+
+    // This will throw if it doesn't exist.
+    endpoints[protocol][method][name].mustExist;
+
+    return endpoints[protocol][method][name];
+};
+
+// Expose DB to endpoints. We may revisit this approach if it's too crude.
+endpoint.db = db;
 
 // Registers an endpoint with a given name, for a specific method of a protocol.
 // An endpoint may not be registered twice; unless options.[ignore|override] are true.
 // None of the first three arguments may contain a "/".
 // The first three arguments can be collapsed as a string: 'protocol/method/name'
-exports.register = function(protocol, method, name, endpoint, options) {
-    // Accept collapsed first argument.
+endpoint.register = function(protocol, method, name, endpoint, options) {
+    // Accept first argument to be 'protocol/method/name'.
     if (!endpoint) {
         options = name;
         endpoint = method;
@@ -23,6 +41,9 @@ exports.register = function(protocol, method, name, endpoint, options) {
         method = protocol.split('/')[1];
         protocol = protocol.split('/')[0];
     }
+
+    // Normalize method to uppercase.
+    method = method.toUpperCase();
 
     // Options are optional.
     options = options || {};
@@ -52,3 +73,5 @@ exports.register = function(protocol, method, name, endpoint, options) {
         }
     }
 };
+
+module.exports = endpoint;
