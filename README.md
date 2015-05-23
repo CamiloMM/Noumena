@@ -87,7 +87,7 @@ The methods will be documented in length when they're ready. Preliminarly, they'
 * **Pixel beacon** (in essence, a `GET` request that returns a transparent pixel)
 * **SVG beacon** (to circumvent proxying like what GitHub does)
 * **JS embed** (similar to Google Analytics stuff)
-* **Local API** (for use within the server instance)
+* **Local API** (for use within the server instance) **(done)**
 * **Remote API(s)** (such as a wrapper node module)
 
 ### Endpoint
@@ -117,7 +117,7 @@ This must be kept in mind when querying; and special queries might be crafted th
 
 # Current Status
 
-Front-end is progressing very well, and I'm working on the DB layer. Come back in another month.
+Front-end and DB layer is progressing very well, API is being worked on. Come back in a month.
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
