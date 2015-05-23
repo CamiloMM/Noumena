@@ -86,6 +86,63 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
     }
 };
 
+// A unified way of handling URL arguments. Arguments are assumed to take
+// the following form: 'project/category/action[/flags][/{data}][.ext]'
+// where the first three items are mandatory, and any of flags/data/ext may or may
+// not be specified. Note that, if present, {data} must be a valid JSON object.
+// If the whole thing is invalid, null will be returned. Else, an object will
+// be return with keys named after the elements mentioned above, where optional
+// fields not specified will be null.
+// An extra parameter, ext, may be specified, that serves to verify the extension
+// given is allowed. It can be a string (literal match) or a regular expression.
+// Note it does not include the leading dot. This verification will only be
+// performed if the extension is passed.
+endpoint.parseArgs = function(args, ext) {
+    // Sanity checks on the arguments.
+    if (typeof args != 'string') return null;
+    if (ext && !(typeof ext == 'string' || ext instanceof RegExp)) {
+        throw new Error('ext argument must be a string or regular expression');
+    }
+
+    var pattern = /^([^\/]+)\/([^\/]+)\/([^\/]+)(\/([^{\/]*))?(\/(\{.*\}))?(\.(.+))?$/;
+    var match = args.match(pattern);
+    if (!match) return null;
+    var parsed = {};
+
+    // Set these three fields while guarding against whitespace.
+    if (!(parsed.project  = match[1].trim())) return null;
+    if (!(parsed.category = match[2].trim())) return null;
+    if (!(parsed.action   = match[3].trim())) return null;
+
+    parsed.flags = typeof match[5] == 'string' ? match[5] : null;
+
+    // A data argument is optional, but if present, it must be valid JSON.
+    if (match[7]) {
+        try {
+            parsed.data = JSON.parse(match[7]);
+        } catch (e) {
+            return null;
+        }
+    } else {
+        parsed.data = null;
+    }
+
+    // If an extension was found, and a verifier was specified, check it.
+    if (match[9]) {
+        if (ext) {
+            if (typeof ext == 'string' && match[9] !== ext) return null;
+            if (ext instanceof RegExp && !ext.test(match[9])) return null;
+            parsed.ext = match[9];
+        } else {
+            parsed.ext = match[9];
+        }
+    } else {
+        parsed.ext = null;
+    }
+
+    return parsed;
+};
+
 // Expose DB to endpoints. We may revisit this approach if it's too crude.
 endpoint.db = db;
 
