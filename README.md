@@ -55,6 +55,8 @@ Adding certain "flags" when logging an event will add automatic properties to it
 
 Note that this is more or less syntactic sugar for logging; it's just to ensure consistency and simplicity, but there's never just one way to do things when you can log a whole object.
 
+Also keep in mind that specifying flags will turn an otherwise "simple event" into one with a data property (since it will need an object to store the generated fields). Specifying flags and a data object writes properties into the data object you give.
+
 | Flag | Description |
 |------|-------------|
 | `i` | `ip` field will contain the IP address from where the request came as a string such as `123.4.56.789` |
