@@ -94,9 +94,12 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
 // be return with keys named after the elements mentioned above, where optional
 // fields not specified will be null.
 // An extra parameter, ext, may be specified, that serves to verify the extension
-// given is allowed. It can be a string (literal match) or a regular expression.
+// found is allowed. It can be a string (literal match) or a regular expression.
 // Note it does not include the leading dot. This verification will only be
-// performed if the extension is passed.
+// performed if the extension is found in the args.
+// The flags field returned, if any, will be an object where each flag is a
+// property which maps to "true"; so flags 'ab' become {a:true,b:true}. This
+// allows for a simplified syntax such as if(flags){...if(flags.a){...}...}.
 endpoint.parseArgs = function(args, ext) {
     // Sanity checks on the arguments.
     if (typeof args != 'string') return null;
@@ -114,7 +117,17 @@ endpoint.parseArgs = function(args, ext) {
     if (!(parsed.category = match[2].trim())) return null;
     if (!(parsed.action   = match[3].trim())) return null;
 
-    parsed.flags = typeof match[5] == 'string' ? match[5] : null;
+    // Parse flags into object keys.
+    var flagString = match[5];
+    if (typeof flagString == 'string') {
+        var flags = {};
+        for (var i = 0; i < flagString.length; i++) {
+            flags[flagString[i]] = true;
+        }
+        parsed.flags = flags;
+    } else {
+        parsed.flags = null;
+    }
 
     // A data argument is optional, but if present, it must be valid JSON.
     if (match[7]) {
