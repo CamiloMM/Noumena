@@ -1,4 +1,5 @@
 var autoincrement = require('autoincrement');
+var useragent     = require('useragent');
 var db            = require('./db.js');
 
 // Endpoint API.
@@ -176,6 +177,13 @@ endpoint.parseFlags = function(flags, req, data) {
 
     // User-Agent.
     if (all || flags.a) data.agent = req.headers['user-agent'] || null;
+
+    // Browser.
+    var ua = null;
+    if (all || flags.b) {
+        ua = useragent.lookup(req.headers['user-agent']);
+        data.browser = ua.family + ' ' + ua.major + '.' + ua.minor;
+    }
 
     // Auto-incrementing number.
     if (all || flags.n) data.num = +autoincrement;
