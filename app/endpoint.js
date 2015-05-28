@@ -161,23 +161,27 @@ endpoint.parseArgs = function(args, ext) {
 // Pass a flag object like the one created by .parseArgs, and an express request.
 // The data object you pass may be null, and the returned data object may also be null.
 endpoint.parseFlags = function(flags, req, data) {
+    // Meta-flags.
+    if (flags['-']) return data;
+    var all = !!flags['*'];
+
     // Ensure we're writing on an object.
     data = data || {};
 
     // IP adress.
-    if (flags.i) data.ip = req.ip;
+    if (all || flags.i) data.ip = req.ip;
 
     // Timestamp.
-    if (flags.t) data.time = Math.round(Date.now() / 1000);
+    if (all || flags.t) data.time = Math.round(Date.now() / 1000);
 
     // User-Agent.
-    if (flags.a) data.agent = req.headers['user-agent'] || null;
+    if (all || flags.a) data.agent = req.headers['user-agent'] || null;
 
     // Auto-incrementing number.
-    if (flags.n) data.num = +autoincrement;
+    if (all || flags.n) data.num = +autoincrement;
 
     // HTTP headers.
-    if (flags.h) data.headers = req.headers;
+    if (all || flags.h) data.headers = req.headers;
 
     // Return null if data has no keys.
     return Object.keys(data).length ? data : null;
