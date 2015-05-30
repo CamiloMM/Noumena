@@ -178,12 +178,13 @@ endpoint.parseFlags = function(flags, req, data) {
     // User-Agent.
     if (all || flags.a) data.agent = req.headers['user-agent'] || null;
 
-    // Browser.
-    var ua = null;
-    if (all || flags.b) {
-        ua = useragent.lookup(req.headers['user-agent']);
-        data.browser = ua.family + ' ' + ua.major + '.' + ua.minor;
-    }
+    // Browser, OS and device.
+    if (all || flags.b || flags.o || flags.p)
+        var ua = useragent.lookup(req.headers['user-agent']);
+    if (all || flags.b)
+        data.browser = ua.toAgent().replace(/(\d+\.\d+)\.\d+$/, '$1'); // Remove patch #.
+    if (all || flags.o) data.os = ua.os.toString();
+    if (all || flags.d) data.device = ua.device.toString();
 
     // Auto-incrementing number.
     if (all || flags.n) data.num = +autoincrement;
