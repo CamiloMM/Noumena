@@ -63,7 +63,9 @@ Also keep in mind that specifying flags will turn an otherwise "simple event" in
 | `g` | `geo` will contain an array of `[lon, lat]`, and `country` will contain the [ISO 3166-1 alpha-2] country code, both either guessed from the IP of the request or some other API. Note that setting `g` may use the IP but you still must specify `i` if you want it recorded. |
 | `t` | `time` will contain the current time and date as an [Unix Epoch timestamp]. |
 | `a` | `agent` will contain a string describing the user-agent of the request (if available). |
-| `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). |
+| `b` | `browser` will be a string guessed from the `agent` (which won't be implicitly stored). Example: `'Chrome 45.67'` |
+| `o` | `os` will be a string containing the (guessed) operating system, e.g., `'Windows 10'`. |
+| `d` | `device` will be a string containing the (guessed) device name, e.g., `'Kindle Fire'`. |
 | `f` | Store an user's `fingerprint`, which is stable enough to identify a single user through one or more sessions, but variable enough that it will avoid *most* collisions. This should be a 32-bit int taken from the first 4 bytes of an md5 of a set of data. |
 | `n` | The `num` key will contain an auto-incrementing integer that uniquely identifies the event. It is guaranteed to be unique and always incrementing, but it is sparse; it may start in whatever positive number (from 1) and may contain gaps (all events use the same system, and moreover they can all be deleted individually). Note: we'll use the [`autoincrement`][autoincrement] module. |
 | `h` | `headers` will be an object containing the http headers for the request. Note this is very space-consuming. |
@@ -77,7 +79,7 @@ Similar to how data-less elements will contain an auto-incrementing number indic
 
 ##### Note
 
-To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `geo`, `country`, `time`, `agent`, `browser`, `fingerprint`, `num`, `headers` and `endpoint` (unless, of course, you're setting these with custom logic and know what you're doing - which is what some of the APIs may use, such as to take advantadge of geolocation).
+To avoid confusion, refrain from adding custom fields in `data` with the names `ip`, `geo`, `country`, `time`, `agent`, `browser`, `os`, `device`, `fingerprint`, `num`, `headers` and `endpoint` (unless, of course, you're setting these with custom logic and know what you're doing - which is what some of the APIs may use, such as to take advantadge of geolocation).
 
 ### Logging methods
 
