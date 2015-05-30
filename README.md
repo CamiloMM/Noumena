@@ -87,13 +87,13 @@ There will be various logging methods, most available through HTTP, and utility 
 
 The methods will be documented in length when they're ready. Preliminarly, they'll be:
 
-* **`GET` request** (limited `data` size)
-* **`POST` request**
-* **Pixel beacon** (in essence, a `GET` request that returns a transparent pixel)
-* **SVG beacon** (to circumvent proxying like what GitHub does)
-* **JS embed** (similar to Google Analytics stuff)
-* **Local API** (for use within the server instance) **(done)**
-* **Remote API(s)** (such as a wrapper node module)
+- [ ] **`GET` request** (limited `data` size)
+- [ ] **`POST` request**
+- [ ] **Pixel beacon** (in essence, a `GET` request that returns a transparent pixel)
+- [ ] **SVG beacon** (to circumvent proxying like what GitHub does)
+- [ ] **JS embed** (similar to Google Analytics stuff)
+- [x] **Local API** (for use within the server instance)
+- [ ] **Remote API(s)** (such as a wrapper node module)
 
 ### Endpoint
 
