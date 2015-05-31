@@ -1,0 +1,76 @@
+{
+  "name": "maxmind-db-reader",
+  "version": "0.1.1",
+  "description": "This is the pure Node API for reading MaxMind DB files. MaxMind DB is a binary file format that stores data indexed by IP address subnets (IPv4 or IPv6).",
+  "main": "./index.js",
+  "contributors": [
+    {
+      "name": "Patrick Klös",
+      "email": "pkloes@web.de"
+    },
+    {
+      "name": "Corné 'EaterOfCode' Oppelaar",
+      "email": "hello@eaterofco.de"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PaddeK/node-maxmind-db"
+  },
+  "bin": {
+    "mmdb-geoip": "./repl"
+  },
+  "keywords": [
+    "Maxmind",
+    "Maxmind DB",
+    "Maxmind DB Reader",
+    "GeoIP2",
+    "GeoIP2 Lite"
+  ],
+  "author": {
+    "name": "Patrick Klös",
+    "email": "pkloes@web.de"
+  },
+  "dependencies": {
+    "big-integer": ">=1.1.5"
+  },
+  "licenses": [
+    {
+      "type": "LGPL 2.1",
+      "url": "https://github.com/PaddeK/node-maxmind-db/blob/master/LICENSE"
+    }
+  ],
+  "engine": {
+    "node": ">=0.8.0"
+  },
+  "gitHead": "ec1434c52057cdc0ecc4553544b93c2b5d890143",
+  "bugs": {
+    "url": "https://github.com/PaddeK/node-maxmind-db/issues"
+  },
+  "homepage": "https://github.com/PaddeK/node-maxmind-db",
+  "_id": "maxmind-db-reader@0.1.1",
+  "scripts": {},
+  "_shasum": "a0584e07aea2bad60a32e7b026ee888e73024036",
+  "_from": "maxmind-db-reader@",
+  "_npmVersion": "1.4.28",
+  "_npmUser": {
+    "name": "eaterofcode",
+    "email": "hello@eaterofco.de"
+  },
+  "maintainers": [
+    {
+      "name": "paddek",
+      "email": "pkloes@web.de"
+    },
+    {
+      "name": "eaterofcode",
+      "email": "hello@eaterofco.de"
+    }
+  ],
+  "dist": {
+    "shasum": "a0584e07aea2bad60a32e7b026ee888e73024036",
+    "tarball": "http://registry.npmjs.org/maxmind-db-reader/-/maxmind-db-reader-0.1.1.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/maxmind-db-reader/-/maxmind-db-reader-0.1.1.tgz"
+}
