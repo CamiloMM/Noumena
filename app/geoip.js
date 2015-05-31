@@ -1,13 +1,14 @@
-var path = require('path');
-var mmdb = require('maxmind-db-reader');
-var _    = require('lodash');
+var path       = require('path');
+var mmdbReader = require('maxmind-db-reader');
+var _          = require('lodash');
+var countries  = require('countries-list').countries;
 
 // GeoIP logic is contained (and abstracted) in this file.
 // We currently use GeoLite data created by MaxMind, available from:
 // http://dev.maxmind.com/geoip/legacy/geolite/
 
 var dbPath = path.join(__dirname, '../geoip/GeoLite2-City.mmdb');
-var cities = mmdb.openSync(dbPath);
+var cities = mmdbReader.openSync(dbPath);
 
 // Pass an IP (v4 or v6), and a callback(err, data) where data is an
 // object with keys lat, lon, country (uppercase ISO 3166-1 alpha-2).
@@ -23,4 +24,14 @@ exports.locate = function(ip, callback) {
         data.country = geo.country.iso_code || 'ZZ';
         callback(null, data);
     });
+};
+
+// Returns an english name for the given ISO 3166-1 alpha-2 country code.
+exports.countryName = function(code) {
+    code = (code + '').toUpperCase(); // Ensure uppercase string.
+    if (countries[code]) {
+        return countries[code].name;
+    } else {
+        return 'Unknown Country (' + code + ')';
+    }
 };
