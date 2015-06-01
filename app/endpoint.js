@@ -2,6 +2,7 @@ var autoincrement = require('autoincrement');
 var useragent     = require('useragent');
 var db            = require('./db.js');
 var geoip         = require('./geoip.js');
+var objectHash    = require('object-hash');
 
 // Endpoint API.
 // This file defines methods that can be called from ./endpoints in order to expose
@@ -180,13 +181,29 @@ endpoint.parseFlags = function(flags, req, data, name, callback) {
     // User-Agent.
     if (all || flags.a) data.agent = req.headers['user-agent'] || null;
 
-    // Browser, OS and device.
-    if (all || flags.b || flags.o || flags.p)
+    // Parse user-agent only once, if needed at all.
+    if (all || flags.b || flags.o || flags.p || flags.f)
         var ua = useragent.lookup(req.headers['user-agent']);
+
+    // Browser, OS and device.
     if (all || flags.b)
         data.browser = ua.toAgent().replace(/(\d+\.\d+)\.\d+$/, '$1'); // Remove patch #.
     if (all || flags.o) data.os = ua.os.toString();
     if (all || flags.d) data.device = ua.device.toString();
+
+    // Fingerprint.
+    if (all || flags.f) {
+        // The fingerprint is a 32-bit int taken from
+        // the first 4 bytes of an md5 of a set of data.
+        data.fingerprint = parseInt(objectHash.MD5({
+            browser : ua.family,
+            os      : ua.os.toString(),
+            device  : ua.device.toString(),
+            ip      : req.ip,
+            langs   : req.get('accept-language'),
+            session : req.cookies['noumena-session']
+        }).substr(0, 8), 16);
+    }
 
     // Auto-incrementing number.
     if (all || flags.n) data.num = +autoincrement;
