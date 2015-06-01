@@ -1,6 +1,7 @@
 var autoincrement = require('autoincrement');
 var useragent     = require('useragent');
 var db            = require('./db.js');
+var geoip         = require('./geoip.js');
 
 // Endpoint API.
 // This file defines methods that can be called from ./endpoints in order to expose
@@ -160,10 +161,11 @@ endpoint.parseArgs = function(args, ext) {
 
 // Shared server-side flag parsing logic.
 // Pass a flag object like the one created by .parseArgs, and an express request.
-// The data object you pass may be null, and the returned data object may also be null.
-endpoint.parseFlags = function(flags, req, data) {
+// The data object you pass may be null, and the created data object may also be null.
+// Pass a standard callback(err, data) to get the data.
+endpoint.parseFlags = function(flags, req, data, callback) {
     // Meta-flags.
-    if (flags['-']) return data;
+    if (flags['-']) return callback(null, data);
     var all = !!flags['*'];
 
     // Ensure we're writing on an object.
@@ -192,8 +194,19 @@ endpoint.parseFlags = function(flags, req, data) {
     // HTTP headers.
     if (all || flags.h) data.headers = req.headers;
 
-    // Return null if data has no keys.
-    return Object.keys(data).length ? data : null;
+    // If we need to perform GeoIP, this is async.
+    if (all || flags.g) {
+        geoip.locate(req.ip, function(err, geo) {
+            if (err) return callback(err);
+            data.geo = [geo.lon, geo.lat];
+            data.country = geo.country;
+            callback(null, data);
+        });
+    } else {
+        // Pass null if data has no keys.
+        data = Object.keys(data).length ? data : null;
+        callback(null, data);
+    }
 };
 
 // Expose DB to endpoints. We may revisit this approach if it's too crude.
