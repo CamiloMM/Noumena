@@ -160,10 +160,10 @@ endpoint.parseArgs = function(args, ext) {
 };
 
 // Shared server-side flag parsing logic.
-// Pass a flag object like the one created by .parseArgs, and an express request.
-// The data object you pass may be null, and the created data object may also be null.
-// Pass a standard callback(err, data) to get the data.
-endpoint.parseFlags = function(flags, req, data, callback) {
+// Pass a flags object like the one created by .parseArgs, and an express request.
+// The data object you pass may be null, and the resulting data object may also be null.
+// Also pass the endpoint name, and a standard callback(err, data) to get the data.
+endpoint.parseFlags = function(flags, req, data, name, callback) {
     // Meta-flags.
     if (flags['-']) return callback(null, data);
     var all = !!flags['*'];
@@ -193,6 +193,9 @@ endpoint.parseFlags = function(flags, req, data, callback) {
 
     // HTTP headers.
     if (all || flags.h) data.headers = req.headers;
+
+    // Endpoint name.
+    if (all || flags.e) data.endpoint = name || 'Unknown Endpoint';
 
     // If we need to perform GeoIP, this is async.
     if (all || flags.g) {
