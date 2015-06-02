@@ -4,19 +4,17 @@
 
 I believe information is key to everything. Knowing why your application crashed from a remote report is much more reliable than waiting for bug reports to crop up on an issue tracker.
 
-So I need an event tracking system. One that's easy to use, easy to understand, very predictable and doesn't make too many assumptions on what you're using it for. Having taken a look at Google Analytics, it's totally unsuitable to anything other than a website, and *one that accepts javascript* at that (so it's not useful for sites where you may just have an account, even though images could work as a tracker beacon). Plus, unless you're one of those people that worry more about search engines than the raw quality of a product, you very likely do not understand all of Google Analytics huge arrangement of (SEO-oriented) tools and features.
+So I need an event tracking system. One that's easy to use, easy to understand, very predictable and doesn't make too many assumptions on what you're using it for. Having taken a look at Google Analytics, it's totally unsuitable to anything other than a website, and *one that accepts javascript* at that (so it's not useful for sites where you may just have an account, even though images could work as a tracker beacon). Plus, unless you're one of those people that worry more about pagerank than the raw quality of a product, you very likely do not understand all of Google Analytics huge arrangement of (SEO-oriented) tools and features.
 
 In other words, I believe in a simple tool that can bend itself to varied use-cases and doesn't require much fore-thought into it, and especially not implementation difficulties where no technical limitation existed. Have something you want logged? Just log it, and later you'll figure out what to do with it. Can only embed images? No problem, because that shouldn't stop you.
 
-I believe the main reason people don't [log all the things] is because it's fucking tedious to set everything up, to make sense of it, and to decide when and where to even make a decent effort at logging. It should be something you can safely add as an after-thought and still have something useful in your hands, while still being able to plan it out from the development phase.
+I believe the main reason people don't [log all the things] is because it's fucking tedious to set everything up, to make sense of it, and to decide when and where to even make a decent effort at logging. It should be something you can safely add as an after-thought and still have something useful in your hands, while also being able to draft it out from the development phase.
 
-At the same time, I think a logging system is something that should be simple enough for you to understand as a system; therefore I encourage you to build your own too. I don't know where this system will lead me, or even if it will lead me to a conclusion that contradicts my assumptions. In either case, this is just a side project of mine and I don't know if it will "pay off" or result in something of respectable quality. Interpret everything you see onward as a rough sketch of a system.
-
-Enough with this mumbo-jumbo.
+At the same time, I think a logging system is something that should be simple enough for you to understand as a system; therefore I encourage you to build your own too. I don't know where this system will lead me, or even if it will bring me to a conclusion that contradicts my assumptions. In either case, this is just a side project of mine and I don't know if it will "pay off" or prove itself as a worthwhile endeavor. Interpret everything you see onward as a rough sketch of a system.
 
 # Assumptions
 
-This is meant for a single developer or trusted group having access to the server instance. It is not multi-user, and not fit for a large organization. The use-case is a single developer tracking personal projects and other information on his behalf and that of other people who he chooses to. It also does not take into account scalability beyond a single server instance.
+This is meant for a single developer or trusted group having access to the server instance. It is not multi-admin, and probably not fit for the bureaucracy of a large organization. The use-case is a single developer tracking projects and other information on his behalf and that of other people who he chooses to. It also does not take into account scalability beyond a single server instance.
 
 It is also assumed that the user of this has full access to the server instance (this can be restricted to e.g., an Unix user), knows how to SSH, edit files and basic sysadmin stuff.
 
