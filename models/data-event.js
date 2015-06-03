@@ -25,8 +25,11 @@ dataEventSchema.index({'data.country'    : 1   }, {sparse: true});
 dataEventSchema.index({'data.time'       : 1   }, {sparse: true});
 dataEventSchema.index({'data.agent'      : 1   }, {sparse: true});
 dataEventSchema.index({'data.browser'    : 1   }, {sparse: true});
+dataEventSchema.index({'data.os'         : 1   }, {sparse: true});
+dataEventSchema.index({'data.device'     : 1   }, {sparse: true});
 dataEventSchema.index({'data.fingerprint': 1   }, {sparse: true});
 dataEventSchema.index({'data.num'        : 1   }, {sparse: true, unique: true});
+dataEventSchema.index({'data.endpoint'   : 1   }, {sparse: true});
 
 var DataEvent = mongoose.model('DataEvent', dataEventSchema);
 
