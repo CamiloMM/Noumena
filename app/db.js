@@ -54,6 +54,18 @@ exports.registerDataEvent = function(project, category, action, data, callback) 
     });
 };
 
+// Simplified event registering. Pass an options object with properties
+// project, category, action, and optionally, data (which controls whether or not
+// the event is a data event), and a callback(error) like usual.
+exports.registerEvent = function(options, callback) {
+    var o = options;
+    if (options.data) {
+        exports.registerDataEvent(o.project, o.category, o.action, o.data, callback);
+    } else {
+        exports.registerSimpleEvent(o.project, o.category, o.action, callback);
+    }
+}
+
 // Gets projects, and gives them to a callback that does something with them.
 // Will call the callback with an array of project names, or null on error.
 exports.getProjects = function(callback) {
