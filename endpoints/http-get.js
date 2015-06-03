@@ -6,19 +6,17 @@ var endpoint = require('../app/endpoint');
 
 // The name is "hg" for "http GET".
 endpoint.register('http/GET/hg', function(req, res, args) {
-    args = endpoint.parseArgs(args);
-    if (!args) return res.sendStatus(400);
-    var project = args.project, category = args.category, action = args.action;
-    function callback(error) {
-        if (error) {
-            res.sendStatus(500);
+    endpoint.parseArgs(args, null, req, 'http-get', function(err, parsed) {
+        if (err) return res.sendStatus(500);
+        if (!parsed) return res.sendStatus(400);
+        var project  = parsed.project,
+            category = parsed.category,
+            action   = parsed.action;
+        function callback(error) { res.sendStatus(error ? 500 : 200); }
+        if (parsed.data) {
+            endpoint.db.registerDataEvent(project, category, action, parsed.data, callback);
         } else {
-            res.sendStatus(200);
+            endpoint.db.registerSimpleEvent(project, category, action, callback);
         }
-    }
-    if (args.data) {
-        endpoint.db.registerDataEvent(project, category, action, args.data, callback);
-    } else {
-        endpoint.db.registerSimpleEvent(project, category, action, callback);
-    }
+    });
 });
