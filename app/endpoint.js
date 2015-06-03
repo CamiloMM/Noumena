@@ -90,55 +90,47 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
     }
 };
 
-// A unified way of handling URL arguments. Arguments are assumed to take
-// the following form: 'project/category/action[/flags][/{data}][.ext]'
+// A unified way of handling URL arguments. The args value (from an URL) is assumed
+// to take the following form: 'project/category/action[/flags][/{data}][.ext]'
 // where the first three items are mandatory, and any of flags/data/ext may or may
 // not be specified. Note that, if present, {data} must be a valid JSON object.
-// If the whole thing is invalid, null will be returned. Else, an object will
-// be return with keys named after the elements mentioned above, where optional
-// fields not specified will be null.
-// An extra parameter, ext, may be specified, that serves to verify the extension
-// found is allowed. It can be a string (literal match) or a regular expression.
+// The ext parameter, if not null, serves to validate if any extension found
+// is allowed. It can be a string (literal match) or a regular expression.
 // Note it does not include the leading dot. This verification will only be
-// performed if the extension is found in the args.
-// The flags field returned, if any, will be an object where each flag is a
-// property which maps to "true"; so flags 'ab' become {a:true,b:true}. This
-// allows for a simplified syntax such as if(flags){...if(flags.a){...}...}.
-endpoint.parseArgs = function(args, ext) {
+// performed if the extension is found in the args. Extensions may have more
+// than one dot (e.g., an extension could be 'tar.gz').
+// If you wish for automated flag parsing, pass req (ExpressJS request object) and
+// endpoint (the endpoint's name). Either way, you can add your own flag parsing.
+// Hook your logic at callback(err, parsed) where err indicates a problem, and
+// a parsed value of null indicates args non-conformity. If args was valid, parsed
+// will be an object with keys named after the elements mentioned above (project,
+// category, action, flags, data and ext) where flags, data and ext may be null.
+// The flags field will either be null or an object where each found flag
+// is a property which maps to "true"; so flags 'ab' become {a:true,b:true}.
+// This allows for a simplified syntax such as if(flags){...if(flags.a){...}...}.
+endpoint.parseArgs = function(args, ext, req, endpoint, callback) {
     // Sanity checks on the arguments.
-    if (typeof args != 'string') return null;
+    if (typeof args != 'string') return callback(new Error('args must be a string'));
     if (ext && !(typeof ext == 'string' || ext instanceof RegExp)) {
-        throw new Error('ext argument must be a string or regular expression');
+        return callback(new Error('ext must be a string or regular expression'));
     }
 
-    var pattern = /^([^\/]+)\/([^\/]+)\/([^\/]+)(\/([^{\/]*))?(\/(\{.*\}))?(\.(.+))?$/;
+    var pattern = /^([^\/]+)\/([^\/]+)\/([^\/]+)(\/([^{\/.]*))?(\/(\{.*\}))?(\.(.+))?$/;
     var match = args.match(pattern);
-    if (!match) return null;
+    if (!match) return callback(null, null);
     var parsed = {};
 
     // Set these three fields while guarding against whitespace.
-    if (!(parsed.project  = match[1].trim())) return null;
-    if (!(parsed.category = match[2].trim())) return null;
-    if (!(parsed.action   = match[3].trim())) return null;
-
-    // Parse flags into object keys.
-    var flagString = match[5];
-    if (typeof flagString == 'string') {
-        var flags = {};
-        for (var i = 0; i < flagString.length; i++) {
-            flags[flagString[i]] = true;
-        }
-        parsed.flags = flags;
-    } else {
-        parsed.flags = null;
-    }
+    if (!(parsed.project  = match[1].trim())) return callback(null, null);
+    if (!(parsed.category = match[2].trim())) return callback(null, null);
+    if (!(parsed.action   = match[3].trim())) return callback(null, null);
 
     // A data argument is optional, but if present, it must be valid JSON.
     if (match[7]) {
         try {
             parsed.data = JSON.parse(match[7]);
         } catch (e) {
-            return null;
+            return callback(null, null);
         }
     } else {
         parsed.data = null;
@@ -147,8 +139,8 @@ endpoint.parseArgs = function(args, ext) {
     // If an extension was found, and a verifier was specified, check it.
     if (match[9]) {
         if (ext) {
-            if (typeof ext == 'string' && match[9] !== ext) return null;
-            if (ext instanceof RegExp && !ext.test(match[9])) return null;
+            if (typeof ext == 'string' && match[9] !== ext) return callback(null, null);
+            if (ext instanceof RegExp && !ext.test(match[9])) return callback(null, null);
             parsed.ext = match[9];
         } else {
             parsed.ext = match[9];
@@ -157,14 +149,35 @@ endpoint.parseArgs = function(args, ext) {
         parsed.ext = null;
     }
 
-    return parsed;
+    // Parse flags into object keys as last step, since it may be async.
+    var flagString = match[5];
+    if (typeof flagString == 'string') {
+        var flags = {};
+        for (var i = 0; i < flagString.length; i++) {
+            flags[flagString[i]] = true;
+        }
+        parsed.flags = flags;
+        // If req and endpoint have been passed, parse the flags.
+        if (req && endpoint) {
+            return parseFlags(flags, req, parsed.data, endpoint, function(err, data) {
+                if (err) return callback(err);
+                if (data) parsed.data = data;
+                return callback(null, parsed);
+            });
+        } else {
+            return callback(null, parsed);
+        }
+    } else {
+        parsed.flags = null;
+        return callback(null, parsed);
+    }
 };
 
 // Shared server-side flag parsing logic.
 // Pass a flags object like the one created by .parseArgs, and an express request.
 // The data object you pass may be null, and the resulting data object may also be null.
 // Also pass the endpoint name, and a standard callback(err, data) to get the data.
-endpoint.parseFlags = function(flags, req, data, name, callback) {
+var parseFlags = endpoint.parseFlags = function(flags, req, data, endpoint, callback) {
     // Meta-flags.
     if (flags['-']) return callback(null, data);
     var all = !!flags['*'];
@@ -212,7 +225,7 @@ endpoint.parseFlags = function(flags, req, data, name, callback) {
     if (all || flags.h) data.headers = req.headers;
 
     // Endpoint name.
-    if (all || flags.e) data.endpoint = name || 'Unknown Endpoint';
+    if (all || flags.e) data.endpoint = endpoint || 'Unknown Endpoint';
 
     // If we need to perform GeoIP, this is async.
     if (all || flags.g) {
