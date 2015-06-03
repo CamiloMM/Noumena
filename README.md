@@ -85,7 +85,7 @@ There will be various logging methods, most available through HTTP, and utility 
 
 The methods will be documented in length when they're ready. Preliminarly, they'll be:
 
-- [ ] **`GET` request** (limited `data` size)
+- [x] **`GET` request** (limited `data` size)
 - [ ] **`POST` request**
 - [ ] **Pixel beacon** (in essence, a `GET` request that returns a transparent pixel)
 - [ ] **SVG beacon** (to circumvent proxying like what GitHub does)
