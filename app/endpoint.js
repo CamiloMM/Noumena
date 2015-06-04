@@ -98,7 +98,7 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
 // is allowed. It can be a string (literal match) or a regular expression.
 // Note it does not include the leading dot. This verification will only be
 // performed if the extension is found in the args. Extensions may have more
-// than one dot (e.g., an extension could be 'tar.gz').
+// than one dot (e.g., 'tar.gz') and are returned lowercased for convenience.
 // If you wish for automated flag parsing, pass req (ExpressJS request object) and
 // endpoint (the endpoint's name). Either way, you can add your own flag parsing.
 // Hook your logic at callback(err, parsed) where err indicates a problem, and
@@ -141,9 +141,9 @@ endpoint.parseArgs = function(args, ext, req, endpoint, callback) {
         if (ext) {
             if (typeof ext == 'string' && match[9] !== ext) return callback(null, null);
             if (ext instanceof RegExp && !ext.test(match[9])) return callback(null, null);
-            parsed.ext = match[9];
+            parsed.ext = match[9].toLowerCase();
         } else {
-            parsed.ext = match[9];
+            parsed.ext = match[9].toLowerCase();
         }
     } else {
         parsed.ext = null;
