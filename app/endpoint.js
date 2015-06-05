@@ -90,6 +90,7 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
     }
 };
 
+// (This comment block is long, but this is a crucial part of the codebase.)
 // A unified way of handling URL arguments. The args value (from an URL) is assumed
 // to take the following form: 'project/category/action[/flags][/{data}][.ext]'
 // where the first three items are mandatory, and any of flags/data/ext may or may
@@ -108,6 +109,10 @@ endpoint.register = function(protocol, method, name, endpoint, options) {
 // The flags field will either be null or an object where each found flag
 // is a property which maps to "true"; so flags 'ab' become {a:true,b:true}.
 // This allows for a simplified syntax such as if(flags){...if(flags.a){...}...}.
+// Note: if you want an endpoint to provide dynamic responses and extra logic,
+// three approaches can be taken: using project/category/action as a "key",
+// using ext as a key (e.g., .123456.ext), or coding a custom parseArgs
+// implementation. The latter is the hardest and least preferrable.
 endpoint.parseArgs = function(args, ext, req, endpoint, callback) {
     // Sanity checks on the arguments.
     if (typeof args != 'string') return callback(new Error('args must be a string'));
