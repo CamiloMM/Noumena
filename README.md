@@ -126,7 +126,7 @@ Front-end and DB layer is progressing very well, API is being worked on. Come ba
 
 This is a test to see if we can bust GitHub's proxy system:
 
-![](./test.svg?raw=true)
+![](../blob/master/test.svg?raw=true)
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
