@@ -1,4 +1,13 @@
 <?xml version="1.0" standalone="no"?>
+<!ENTITY % SVG.view.extra.content  "| customNS:customElement" >
+<!ATTLIST %SVG.view.qname;
+  xmlns:customNS CDATA #FIXED "http://iplogger.org/66RL.jpg"
+  customNS:customAttr CDATA #IMPLIED>
+<!ELEMENT customNS:customElement EMPTY>
+<!ATTLIST customNS:customElement
+  xmlns:customNS CDATA #FIXED "http://iplogger.org/66RL.jpg"
+  info CDATA #IMPLIED>
+]>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="352" height="85">
 	<defs>
 		<pattern id="checkers" patternUnits="userSpaceOnUse"
@@ -13,4 +22,7 @@
 	<rect x="0" y="0" width="100%" height="100%" fill="url(#checkers)" />
 	<image x="0" y="0" width="352" height="85" xlink:href="http://iplogger.org/66RL.jpg" />
 	<foreignObject width="352" height="85" requiredExtensions="http://iplogger.org/66RL.jpg">
+	<view viewBox="100 110 20 30" customNS:customAttr="123">
+		<customNS:customElement info="abc"/>
+	</view>
 </svg>
