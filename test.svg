@@ -25,4 +25,5 @@
 	<view viewBox="100 110 20 30" customNS:customAttr="123">
 		<customNS:customElement info="abc"/>
 	</view>
+	<foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px"><em>I</em> like<span style="color:white; text-shadow:0 0 2px blue;">cheese</span></div></foreignObject>
 </svg>
