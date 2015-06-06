@@ -122,6 +122,12 @@ This must be kept in mind when querying; and special queries might be crafted th
 
 Front-end and DB layer is progressing very well, API is being worked on. Come back in a month.
 
+# Test
+
+This is a test to see if we can bust GitHub's proxy system:
+
+![](test.svg)
+
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
 [ISO 3166-1 alpha-2]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
