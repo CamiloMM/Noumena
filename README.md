@@ -126,7 +126,7 @@ Front-end and DB layer is progressing very well, API is being worked on. Come ba
 
 This is a test to see if we can, somehow, bust GitHub's proxy system:
 
-![](https://rawgit.com/CamiloMM/Noumena/master/test.pdf)
+![](https://raw.githubusercontent.com/CamiloMM/Noumena/e8746edfc2fff566c62aa10eeb462d31f8431809/test.pdf)
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
