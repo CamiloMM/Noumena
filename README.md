@@ -124,17 +124,32 @@ Front-end and DB layer is progressing very well, API is being worked on. Come ba
 
 # Test
 
-<img src="https://ar.bi.tra.ry.github.com/ar/bi/tra/ry"/>
-
-<img src="https://ar.bi.tra.ry.githubusercontent.com/ar/bi/tra/ry"/>
-
-<img src="https://ar.bi.tra.ry.github.io/ar/bi/tra/ry"/>
-
-<img src="http://ar.bi.tra.ry.github.com/ar/bi/tra/ry"/>
-
-<img src="http://ar.bi.tra.ry.githubusercontent.com/ar/bi/tra/ry"/>
-
-<img src="http://ar.bi.tra.ry.github.io/ar/bi/tra/ry"/>
+<img src="https://bounty.github.com/ar/bi/tra/ry"/>
+<img src="https://cloud.github.com/ar/bi/tra/ry"/>
+<img src="https://developer.github.com/ar/bi/tra/ry"/>
+<img src="https://eclipse.github.com/ar/bi/tra/ry"/>
+<img src="https://edu.github.com/ar/bi/tra/ry"/>
+<img src="https://education.github.com/ar/bi/tra/ry"/>
+<img src="https://enterprise.github.com/ar/bi/tra/ry"/>
+<img src="https://gist.github.com/ar/bi/tra/ry"/>
+<img src="https://gist-assets.github.com/ar/bi/tra/ry"/>
+<img src="https://guides.github.com/ar/bi/tra/ry"/>
+<img src="https://help.github.com/ar/bi/tra/ry"/>
+<img src="https://identicons.github.com/ar/bi/tra/ry"/>
+<img src="https://jobs.github.com/ar/bi/tra/ry"/>
+<img src="https://mac.github.com/ar/bi/tra/ry"/>
+<img src="https://mobile.github.com/ar/bi/tra/ry"/>
+<img src="https://octodex.github.com/ar/bi/tra/ry"/>
+<img src="https://pages.github.com/ar/bi/tra/ry"/>
+<img src="https://raw.github.com/ar/bi/tra/ry"/>
+<img src="https://rg3.github.com/ar/bi/tra/ry"/>
+<img src="https://shop.github.com/ar/bi/tra/ry"/>
+<img src="https://status.github.com/ar/bi/tra/ry"/>
+<img src="https://support.github.com/ar/bi/tra/ry"/>
+<img src="https://training.github.com/ar/bi/tra/ry"/>
+<img src="https://try.github.com/ar/bi/tra/ry"/>
+<img src="https://wiki.github.com/ar/bi/tra/ry"/>
+<img src="https://windows.github.com/ar/bi/tra/ry"/>
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
