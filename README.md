@@ -124,11 +124,17 @@ Front-end and DB layer is progressing very well, API is being worked on. Come ba
 
 # Test
 
-<img src="ar.bi.tra.ry.github.com/ar/bi/tra/ry"/>
+<img src="https://ar.bi.tra.ry.github.com/ar/bi/tra/ry"/>
 
-<img src="ar.bi.tra.ry.githubusercontent.com/ar/bi/tra/ry"/>
+<img src="https://ar.bi.tra.ry.githubusercontent.com/ar/bi/tra/ry"/>
 
-<img src="ar.bi.tra.ry.github.io/ar/bi/tra/ry"/>
+<img src="https://ar.bi.tra.ry.github.io/ar/bi/tra/ry"/>
+
+<img src="http://ar.bi.tra.ry.github.com/ar/bi/tra/ry"/>
+
+<img src="http://ar.bi.tra.ry.githubusercontent.com/ar/bi/tra/ry"/>
+
+<img src="http://ar.bi.tra.ry.github.io/ar/bi/tra/ry"/>
 
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
