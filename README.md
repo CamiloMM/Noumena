@@ -122,35 +122,6 @@ This must be kept in mind when querying; and special queries might be crafted th
 
 Front-end and DB layer is progressing very well, API is being worked on. Come back in a month.
 
-# Test
-
-<img src="https://bounty.github.com/ar/bi/tra/ry"/>
-<img src="https://cloud.github.com/ar/bi/tra/ry"/>
-<img src="https://developer.github.com/ar/bi/tra/ry"/>
-<img src="https://eclipse.github.com/ar/bi/tra/ry"/>
-<img src="https://edu.github.com/ar/bi/tra/ry"/>
-<img src="https://education.github.com/ar/bi/tra/ry"/>
-<img src="https://enterprise.github.com/ar/bi/tra/ry"/>
-<img src="https://gist.github.com/ar/bi/tra/ry"/>
-<img src="https://gist-assets.github.com/ar/bi/tra/ry"/>
-<img src="https://guides.github.com/ar/bi/tra/ry"/>
-<img src="https://help.github.com/ar/bi/tra/ry"/>
-<img src="https://identicons.github.com/ar/bi/tra/ry"/>
-<img src="https://jobs.github.com/ar/bi/tra/ry"/>
-<img src="https://mac.github.com/ar/bi/tra/ry"/>
-<img src="https://mobile.github.com/ar/bi/tra/ry"/>
-<img src="https://octodex.github.com/ar/bi/tra/ry"/>
-<img src="https://pages.github.com/ar/bi/tra/ry"/>
-<img src="https://raw.github.com/ar/bi/tra/ry"/>
-<img src="https://rg3.github.com/ar/bi/tra/ry"/>
-<img src="https://shop.github.com/ar/bi/tra/ry"/>
-<img src="https://status.github.com/ar/bi/tra/ry"/>
-<img src="https://support.github.com/ar/bi/tra/ry"/>
-<img src="https://training.github.com/ar/bi/tra/ry"/>
-<img src="https://try.github.com/ar/bi/tra/ry"/>
-<img src="https://wiki.github.com/ar/bi/tra/ry"/>
-<img src="https://windows.github.com/ar/bi/tra/ry"/>
-
 [log all the things]: http://i.imgur.com/VdiUT.jpg
 [object-hash]: https://npmjs.com/package/object-hash
 [ISO 3166-1 alpha-2]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
