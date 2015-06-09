@@ -88,7 +88,6 @@ The methods will be documented in length when they're ready. Preliminarly, they'
 - [x] **`GET` request** (limited `data` size)
 - [x] **`POST` request**
 - [x] **Pixel beacon** (in essence, a `GET` request that returns a transparent pixel)
-- [ ] **SVG beacon** (to circumvent proxying like what GitHub does)
 - [ ] **JS embed** (similar to Google Analytics stuff)
 - [x] **Local API** (for use within the server instance)
 - [ ] **Remote API(s)** (such as a wrapper node module)
