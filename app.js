@@ -29,8 +29,9 @@ app.db = mongoose.connection;
 app.db.on('error', console.error.bind(console, 'connection error:'));
 app.db.once('open', function callback () {
 
-    // Models just need to be required.
+    // Models and endpoints just need to be required.
     requireDir('./models');
+    requireDir('./endpoints')
 
     // This is a passport instance configured in a separate file.
     var passport = require('./app/passport');
@@ -86,7 +87,7 @@ app.db.once('open', function callback () {
         next();
     });
 
-    // Routes only need to be required to work, in our workflow.
+    // Routes only need to be app.use()d to work, in our workflow.
     var routes = requireDir('./routes');
     for (var i in routes) app.use('/', routes[i]);
 
