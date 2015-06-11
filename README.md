@@ -92,6 +92,13 @@ The methods will be documented in length when they're ready. Preliminarly, they'
 - [x] **Local API** (for use within the server instance)
 - [ ] **Remote API(s)** (such as a wrapper node module)
 
+Calling conventions may be further documented later. Preliminarly, consider these examples:
+
+```sh
+curl 'http://localhost:59969/event/hg/MyProject/MyCategory/MyAction.ext'
+curl 'http://localhost:59969/event/hg/MyProject/MyCategory/MyAction/-/{}.any.ext'
+```
+
 ### Endpoint
 
 Since we never know what we'll need next (that proxy-busting SVG hack is a good example), it must be a pluggable system. All the logging methods will be HTTP-based, for now.
