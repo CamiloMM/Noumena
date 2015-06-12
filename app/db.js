@@ -23,7 +23,7 @@ exports.registerSimpleEvent = function(project, category, action, callback) {
         action  : normalizeNamespaceFragment(action)
     };
     var update = {
-        $setOnInsert: _.merge({}, normalized, {count: 1}),
+        $setOnInsert: normalized,
         $inc: {count: 1}
     };
     var options = {upsert: true, select: {}};
@@ -44,7 +44,7 @@ exports.registerDataEvent = function(project, category, action, data, callback) 
         action  : normalizeNamespaceFragment(action)
     };
     var update = {
-        $setOnInsert: _.merge({}, normalized, {count: 1}, hash, {data: data}),
+        $setOnInsert: _.merge({}, normalized, hash, {data: data}),
         $inc: {count: 1}
     };
     var query = _.merge({}, hash, normalized);
