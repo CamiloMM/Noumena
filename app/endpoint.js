@@ -235,7 +235,12 @@ var parseFlags = endpoint.parseFlags = function(flags, req, data, endpoint, call
     // If we need to perform GeoIP, this is async.
     if (all || flags.g) {
         geoip.locate(req.ip, function(err, geo) {
-            if (err) return callback(err);
+            // If we get an error at this point, it may well be because the ip
+            // we scanned for was, e.g., 127.0.0.1, so instead of returning
+            // the error, which would prevent the logging of the event, we will
+            // set geo data to 0/0/ZZ, which is, semantically, "invalid".
+            // We'll also log the request IP, in case we want to dig deeper later.
+            if (err) { geo = {lon: 0, lat: 0, country: 'ZZ'}; data.ip = req.ip; }
             data.geo = [geo.lon, geo.lat];
             data.country = geo.country;
             callback(null, data);
