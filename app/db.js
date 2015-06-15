@@ -76,3 +76,15 @@ exports.getProjects = function(callback) {
         });
     });
 };
+
+// Gets a project's categories (if any was found), and passes them to a callback.
+// Will call the callback with an array of category names, or null on error/no project.
+exports.getCategories = function(project, callback) {
+    SimpleEvent.distinct('category', {project: project}, function(err1, result1) {
+        DataEvent.distinct('category', {project: project}, function(err2, result2) {
+            if (err1 || err2) return callback(null);
+            var categories = _.uniq(result1.concat(result2)).sort();
+            callback(categories.length ? categories : null);
+        });
+    });
+};
