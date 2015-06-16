@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    case mode
+        when 'categories'
+            if categories
+                .centered-buttons
+                    each category in categories
+                        a.button(href='/manage/'+project+'/'+category)= category
+            else
+                p(style='text-align:center') There was some error getting the categories!
+        default
+            p(style='text-align:center') The given path could not be found.
