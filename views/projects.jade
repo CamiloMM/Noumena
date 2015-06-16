@@ -1,9 +1,0 @@
-extends layout
-
-block content
-    if projects
-        .centered-buttons
-            each project in projects
-                a.button(href='/manage/' + project)= project
-    else
-        p(style='text-align:center') There was some error getting the projects!
