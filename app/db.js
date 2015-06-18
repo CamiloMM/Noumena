@@ -88,3 +88,15 @@ exports.getCategories = function(project, callback) {
         });
     });
 };
+
+// Same as above, for actions.
+exports.getActions = function(project, category, callback) {
+    var rules = {project: project, category: category};
+    SimpleEvent.distinct('action', rules, function(err1, result1) {
+        DataEvent.distinct('action', rules, function(err2, result2) {
+            if (err1 || err2) return callback(null);
+            var actions = _.uniq(result1.concat(result2)).sort();
+            callback(actions.length ? actions : null);
+        });
+    });
+};
