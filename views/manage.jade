@@ -16,5 +16,12 @@ block content
                         a.button(href='/manage/'+project+'/'+category)= category
             else
                 p(style='text-align:center') There was some error getting the categories!
+        when 'actions'
+            if actions
+                .centered-buttons
+                    each action in actions
+                        a.button(href='/manage/'+project+'/'+category+'/'+action)= action
+            else
+                p(style='text-align:center') There was some error getting the actions!
         default
             p(style='text-align:center') The given path could not be found.

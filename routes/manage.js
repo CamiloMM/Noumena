@@ -26,4 +26,17 @@ router.get('/manage/:project', app.adminOnly(function(req, res) {
     });
 }));
 
+router.get('/manage/:project/:category', app.adminOnly(function(req, res) {
+    db.getActions(req.params.project, req.params.category, function(actions) {
+        if (!actions) req.flash('bad', 'Invalid project/category!');
+        res.render('manage', {
+            title: '/' + req.params.project + '/' + req.params.category,
+            mode: actions ? 'actions' : 'error',
+            project: req.params.project,
+            category: req.params.category,
+            actions: actions
+        });
+    });
+}));
+
 module.exports = router;
