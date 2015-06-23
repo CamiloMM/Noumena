@@ -100,3 +100,20 @@ exports.getActions = function(project, category, callback) {
         });
     });
 };
+
+// This one is a bit more involved, as it not only gets data but collates it.
+exports.getEvent = function(project, category, action, callback) {
+    var rules = {project: project, category: category, action: action};
+    SimpleEvent.findOne(rules, function(err1, simpleEvent) {
+        DataEvent.find(rules, function(err2, dataEvents) {
+            if (err1 || err2) return callback(null);
+            callback({
+                project: project,
+                category: category,
+                action: action,
+                sCount: simpleEvent ? simpleEvent.count || 0 : 0,
+                dCount: _.sum(_.pluck(dataEvents, 'count'))
+            });
+        });
+    });
+};
