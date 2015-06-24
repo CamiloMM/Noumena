@@ -39,4 +39,18 @@ router.get('/manage/:project/:category', app.adminOnly(function(req, res) {
     });
 }));
 
+router.get('/manage/:project/:category/:act', app.adminOnly(function(req, res) {
+    db.getEvent(req.params.project, req.params.category, req.params.act, function(event) {
+        if (!event) req.flash('bad', 'Invalid project/category/action!');
+        res.render('manage', {
+            title: '/'+req.params.project+'/'+req.params.category+'/'+req.params.act,
+            mode: event ? 'event' : 'error',
+            project: req.params.project,
+            category: req.params.category,
+            action: req.params.act,
+            event: event
+        });
+    });
+}));
+
 module.exports = router;
