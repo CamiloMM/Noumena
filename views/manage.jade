@@ -23,5 +23,13 @@ block content
                         a.button(href='/manage/'+project+'/'+category+'/'+action)= action
             else
                 p(style='text-align:center') There was some error getting the actions!
+        when 'event'
+            if event
+                div.count
+                    p.total= event.sCount + event.dCount + ' total'
+                    p.data= event.dCount + ' data'
+                    p.simple= event.sCount + ' simple'
+            else
+                p(style='text-align:center') There was some error getting the event!
         default
             p(style='text-align:center') The given path could not be found.
