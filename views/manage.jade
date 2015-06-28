@@ -25,10 +25,12 @@ block content
                 p(style='text-align:center') There was some error getting the actions!
         when 'event'
             if event
-                div.count
-                    p.total= event.sCount + event.dCount + ' total'
-                    p.data= event.dCount + ' data'
-                    p.simple= event.sCount + ' simple'
+                .fluid320
+                    .main
+                        h3.simple-count= event.sCount + ' simple events'
+                        h3.data-count= event.dCount + ' data events'
+                    aside.sidebar
+                        h2.total-count= event.sCount + event.dCount + ' total events'
             else
                 p(style='text-align:center') There was some error getting the event!
         default
