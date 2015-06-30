@@ -27,10 +27,16 @@ block content
             if event
                 .fluid320
                     .main
-                        h3.simple-count= event.sCount + ' simple events'
-                        h3.data-count= event.dCount + ' data events'
+                        h3.simple-count
+                            span.num= event.sCount
+                            |  simple events
+                        h3.data-count
+                            span.num= event.dCount
+                            |  data events
                     aside.sidebar
-                        h2.total-count= event.sCount + event.dCount + ' total events'
+                        h2.total-count
+                            span.num= event.sCount + event.dCount
+                            |  total events
             else
                 p(style='text-align:center') There was some error getting the event!
         default
