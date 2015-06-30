@@ -1,0 +1,47 @@
+
+.fluid320 {
+    .fill(absolute);
+
+    .main {
+        right: 320px;
+        .dock-left(absolute);
+    }
+
+    .sidebar {
+        border-left: 2px solid @lightGrey;
+        .bkg(#EEE);
+        .dock-right(absolute, 320px);
+    }
+}
+
+.total-count, .simple-count, .data-count {
+    margin: 0;
+    .text-center;
+    .single-line;
+    .small-caps;
+}
+
+.total-count {
+    font-size: 30px;
+    padding: 8px 16px;
+    .colors(#F8F8F8, #E2E2E2);
+    .line(30px);
+}
+
+.simple-count {
+    right: 50%;
+    .top-left(absolute);
+}
+
+.data-count {
+    left: 50%;
+    .top-right(absolute);
+}
+
+.simple-count, .data-count {
+    border-bottom: 2px solid @lightGrey;
+    font-size: 24px;
+    padding: 10px 0;
+    .colors(#C4C4C4, #EEE);
+    .line(24px);
+}
