@@ -1,6 +1,6 @@
 {
   "name": "connect-mongo",
-  "version": "0.7.0",
+  "version": "0.8.1",
   "description": "MongoDB session store for Express and Connect",
   "keywords": [
     "connect",
@@ -31,21 +31,26 @@
     "grunt-contrib-jshint": "~0.10.0",
     "jshint-stylish": "~1.0.0",
     "mocha": "~2.1.0",
-    "mongoose": ">= 2.6.0 < 4.0.0"
+    "mongoose": ">= 2.6.0 < 4.1.0"
   },
   "scripts": {
     "test": "grunt && make test"
   },
   "main": "./lib/connect-mongo",
-  "gitHead": "eb48af091c4f9873c67b4b83a1ebc6d784fa1da5",
+  "gitHead": "c5676bdde63ba35080437a4d0af517bffa0fd77b",
   "homepage": "https://github.com/kcbanner/connect-mongo",
-  "_id": "connect-mongo@0.7.0",
-  "_shasum": "8870bbebabff6c99aab77c8ad9787abe730b62db",
-  "_from": "connect-mongo@~0.7.0",
-  "_npmVersion": "1.4.28",
+  "_id": "connect-mongo@0.8.1",
+  "_shasum": "91accf4a4edba7657ead415cb4b9775177aa5d7b",
+  "_from": "connect-mongo@~0.8.1",
+  "_npmVersion": "2.7.4",
+  "_nodeVersion": "0.12.2",
   "_npmUser": {
     "name": "jdesboeufs",
     "email": "jerome.desboeufs@gmail.com"
+  },
+  "dist": {
+    "shasum": "91accf4a4edba7657ead415cb4b9775177aa5d7b",
+    "tarball": "http://registry.npmjs.org/connect-mongo/-/connect-mongo-0.8.1.tgz"
   },
   "maintainers": [
     {
@@ -57,10 +62,6 @@
       "email": "jerome.desboeufs@gmail.com"
     }
   ],
-  "dist": {
-    "shasum": "8870bbebabff6c99aab77c8ad9787abe730b62db",
-    "tarball": "http://registry.npmjs.org/connect-mongo/-/connect-mongo-0.7.0.tgz"
-  },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/connect-mongo/-/connect-mongo-0.7.0.tgz"
+  "_resolved": "https://registry.npmjs.org/connect-mongo/-/connect-mongo-0.8.1.tgz"
 }

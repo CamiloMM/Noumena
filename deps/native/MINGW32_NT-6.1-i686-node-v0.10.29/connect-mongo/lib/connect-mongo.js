@@ -67,6 +67,7 @@ var stringifySerializationOptions = {
 
 module.exports = function(connect) {
   var Store = connect.Store || connect.session.Store;
+  var MemoryStore = connect.MemoryStore || connect.session.MemoryStore;
 
   /**
    * Initialize MongoStore with the given `options`.
@@ -92,6 +93,12 @@ module.exports = function(connect) {
     if ('defaultExpirationTime' in options) {
       deprecate('defaultExpirationTime option is deprecated. Use ttl instead');
       options.ttl = options.defaultExpirationTime / 1000;
+    }
+
+    /* Fallback */
+
+    if (options.fallbackMemory && MemoryStore) {
+      return new MemoryStore();
     }
 
     /* Options */
@@ -154,7 +161,7 @@ module.exports = function(connect) {
 
     function buildUrlFromOptions() {
       if(!options.db || typeof options.db !== 'string') {
-        throw new Error('Required MongoStore option `db` missing');
+        throw new Error('Required MongoStore option `db` missing or is not a string.');
       }
 
       options.url = 'mongodb://';
@@ -197,7 +204,7 @@ module.exports = function(connect) {
     function initWithNativeDb() {
       self.db = options.db;
 
-      if (options.db.openCalled) {
+      if (options.db.openCalled || options.db.openCalled === undefined) { // openCalled is undefined in mongodb@2.x
         options.db.collection(options.collection, connectionReady);
       } else {
         options.db.open(connectionReady);
@@ -238,7 +245,7 @@ module.exports = function(connect) {
       initWithMongooseConnection();
     } else if (options.db && options.db instanceof Db) {
       debug('use strategy: `native_db`');
-      initWithNativeDb();
+      process.nextTick(initWithNativeDb);
     } else {
       debug('use strategy: `legacy`');
       buildUrlFromOptions();
@@ -288,6 +295,9 @@ module.exports = function(connect) {
           var s;
           try {
             s = self.options.unserialize(session.session);
+            if(self.options.touchAfter > 0 && session.lastModified){
+              s.lastModified = session.lastModified;
+            }
           } catch (err) {
             debug('unable to deserialize session');
             callback(err);
@@ -313,6 +323,11 @@ module.exports = function(connect) {
     if (!callback) callback = _.noop;
     sid = this.getSessionId(sid);
 
+    // removing the lastModified prop from the session object before update
+    if(this.options.touchAfter > 0 && session && session.lastModified){
+      delete session.lastModified;
+    }
+
     var s;
 
     try {
@@ -335,6 +350,10 @@ module.exports = function(connect) {
       s.expires = new Date(Date.now() + this.options.ttl * 1000);
     }
 
+    if(this.options.touchAfter > 0){
+      s.lastModified = new Date();
+    }
+
     this.getCollection(function(err, collection) {
       if (err) return callback(err);
       collection.update({_id: sid}, s, {upsert: true, safe: true}, function(err) {
@@ -353,20 +372,40 @@ module.exports = function(connect) {
    * @api public
    */
   MongoStore.prototype.touch = function (sid, session, callback) {
-    if (!callback) callback = _.noop;
+
+    var updateFields = {},
+      touchAfter = this.options.touchAfter * 1000,
+      lastModified = session.lastModified ? session.lastModified.getTime() : 0,
+      currentDate = new Date();
+
     sid = this.getSessionId(sid);
 
-    var expires;
+    callback = callback ? callback : _.noop;
+
+    // if the given options has a touchAfter property, check if the
+    // current timestamp - lastModified timestamp is bigger than 
+    // the specified, if it's not, don't touch the session
+    if(touchAfter > 0 && lastModified > 0){
+
+      var timeElapsed = currentDate.getTime() - session.lastModified;
+
+      if(timeElapsed < touchAfter){
+        return callback();
+      } else {
+        updateFields.lastModified = currentDate;
+      }
+
+    }
 
     if (session && session.cookie && session.cookie.expires) {
-      expires = new Date(session.cookie.expires);
+      updateFields.expires = new Date(session.cookie.expires);
     } else {
-      expires = new Date(Date.now() + this.options.ttl * 1000);
+      updateFields.expires = new Date(Date.now() + this.options.ttl * 1000);
     }
 
     this.getCollection(function(err, collection) {
       if (err) return callback(err);
-      collection.update({ _id: sid }, { $set: { expires: expires } }, { safe: true }, function (err, result) {
+      collection.update({ _id: sid }, { $set: updateFields }, { safe: true }, function (err, result) {
         if (err) {
           debug('not able to touch session: %s (error)', sid);
           callback(err);

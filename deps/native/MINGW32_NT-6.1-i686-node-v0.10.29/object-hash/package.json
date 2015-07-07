@@ -1,6 +1,6 @@
 {
   "name": "object-hash",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Generate hashes from javascript objects in node and the browser.",
   "homepage": "https://github.com/puleos/object-hash",
   "repository": {
@@ -50,10 +50,10 @@
       "android-browser/latest"
     ]
   },
-  "gitHead": "33604becce809133b5ecdea01e392e79f4ee2929",
-  "_id": "object-hash@0.7.0",
-  "_shasum": "5a728ad32b9e989dd67e5fbac97778f6800253ad",
-  "_from": "object-hash@",
+  "gitHead": "68b09cbf947648ea33993ca0605b77fe5ff081a9",
+  "_id": "object-hash@0.8.0",
+  "_shasum": "6ffb61b770c940d91977fda1466c9269cdd59cfc",
+  "_from": "object-hash@^0.8.0",
   "_npmVersion": "2.7.3",
   "_nodeVersion": "0.10.38",
   "_npmUser": {
@@ -67,9 +67,9 @@
     }
   ],
   "dist": {
-    "shasum": "5a728ad32b9e989dd67e5fbac97778f6800253ad",
-    "tarball": "http://registry.npmjs.org/object-hash/-/object-hash-0.7.0.tgz"
+    "shasum": "6ffb61b770c940d91977fda1466c9269cdd59cfc",
+    "tarball": "http://registry.npmjs.org/object-hash/-/object-hash-0.8.0.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/object-hash/-/object-hash-0.7.0.tgz"
+  "_resolved": "https://registry.npmjs.org/object-hash/-/object-hash-0.8.0.tgz"
 }

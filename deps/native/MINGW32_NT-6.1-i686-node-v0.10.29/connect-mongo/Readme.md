@@ -2,15 +2,17 @@
 
 MongoDB session store for [Connect](https://github.com/senchalabs/connect) and [Express](http://expressjs.com/)
 
-[![Build Status](https://travis-ci.org/kcbanner/connect-mongo.svg?branch=master)](https://travis-ci.org/kcbanner/connect-mongo) [![Dependency Status](https://david-dm.org/kcbanner/connect-mongo.svg?style=flat)](https://david-dm.org/kcbanner/connect-mongo)
+[![npm version](https://badge.fury.io/js/connect-mongo.svg)](http://badge.fury.io/js/connect-mongo)
+[![Build Status](https://travis-ci.org/kcbanner/connect-mongo.svg?branch=master)](https://travis-ci.org/kcbanner/connect-mongo)
+[![Dependency Status](https://david-dm.org/kcbanner/connect-mongo.svg?style=flat)](https://david-dm.org/kcbanner/connect-mongo)
 
 ## Compatibility
 
 * Support Express `4.x`, `5.0` and Connect `3.x` through [express-session](https://github.com/expressjs/session)
 * Support Express `2.x`, `3.x` and Connect `>= 1.0.3`, `2.x`
-* Support [Mongoose](http://mongoosejs.com/index.html) `>= 2.6` and `3.x`
+* Support [Mongoose](http://mongoosejs.com/index.html) `>= 2.6`, `3.x` and `4.0`
 * Support [native MongoDB driver](http://mongodb.github.io/node-mongodb-native/) `>= 1.2` and `2.0`
-* Support Node.js `0.8`, `0.10` and `0.11`
+* Support Node.js `0.8`, `0.10`, `0.12` and [io.js](https://iojs.org)
 
 ## Usage
 
@@ -69,7 +71,7 @@ app.use(session({
 
 #### Re-use a native MongoDB driver connection
 
-In this case, you juste have to give your `Db` instance to `connect-mongo`.
+In this case, you just have to give your `Db` instance to `connect-mongo`.
 If the connection is not opened, `connect-mongo` will do it for you.
 
 ```js
@@ -151,7 +153,7 @@ By default, `connect-mongo` uses MongoDB's TTL collection feature (2.2+) to have
 
 ### Set MongoDB to clean expired sessions (default mode)
 
-`connect-mongo` will creates a TTL index for you at startup. You MUST have MongoDB 2.2+ and administration permissions.
+`connect-mongo` will create a TTL index for you at startup. You MUST have MongoDB 2.2+ and administration permissions.
 
 ```js
 app.use(session({
@@ -193,9 +195,29 @@ app.use(session({
 }));
 ```
 
+## Lazy session update
+
+
+If you are using [express-session](https://github.com/expressjs/session) >= [1.10.0](https://github.com/expressjs/session/releases/tag/v1.10.0) and don't want to resave all the session on database every single time that the user refresh the page, you can lazy update the session, by limiting a period of time.
+
+```js
+app.use(express.session({
+    secret: 'keyboard cat',
+    saveUninitialized: false, // don't create session until something stored
+	resave: false, //don't save session if unmodified
+	store: new mongoStore({
+		url: 'mongodb://localhost/test-app',
+		touchAfter: 24 * 3600 // time period in seconds
+	})
+}));
+```
+
+by doing this, setting `touchAfter: 24 * 3600` you are saying to the session be updated only one time in a period of 24 hours, does not matter how many request's are made (with the exception of those that change something on the session data)
+
 ## More options
 
   - `collection` Collection (default: `sessions`)
+  - `fallbackMemory` Fallback to `MemoryStore`. Useful if you want to use MemoryStore in some case, like in development environment.
   - `stringify` If true, connect-mongo will serialize sessions using `JSON.stringify` before
                 setting them, and deserialize them with `JSON.parse` when getting them.
                 (optional, default: true). This is useful if you are using types that
