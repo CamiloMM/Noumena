@@ -1,5 +1,16 @@
 extends layout
 
+block navbarTitle
+    case mode
+        when 'categories'
+            h1= '/'+project
+        when 'actions'
+            h1= '/'+project+'/'+category
+        when 'event'
+            h1= '/'+project+'/'+category+'/'+action
+        default
+            h1= title
+
 block content
     case mode
         when 'projects'

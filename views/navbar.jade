@@ -21,7 +21,8 @@
             - attr['data-increment'] = item.increment;
             h1(title=item.message data-flash-type=item.type)&attributes(attr)= item.message
     else
-        h1= title
+        block navbarTitle
+            h1= title
     if loggedIn
         - var t = 'Logged in as "' + currentUser.name + '". Follow this link to log out.';
         a#account(href='/login' title=t)
