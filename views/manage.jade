@@ -3,11 +3,23 @@ extends layout
 block navbarTitle
     case mode
         when 'categories'
-            h1= '/'+project
+            h1
+                | /
+                a(href='/manage/'+project)= project
         when 'actions'
-            h1= '/'+project+'/'+category
+            h1
+                | /
+                a(href='/manage/'+project)= project
+                | /
+                a(href='/manage/'+project+'/'+category)= category
         when 'event'
-            h1= '/'+project+'/'+category+'/'+action
+            h1
+                | /
+                a(href='/manage/'+project)= project
+                | /
+                a(href='/manage/'+project+'/'+category)= category
+                | /
+                a(href='/manage/'+project+'/'+category+'/'+action)= action
         default
             h1= title
 
