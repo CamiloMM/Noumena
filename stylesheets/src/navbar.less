@@ -41,6 +41,15 @@
         .single-line(ellipsis);
         font: 600 28px/40px @baseFont;
         margin: 6px 140px 6px 64px;
+
+        a {
+            .no-underline;
+            .no-outline;
+
+            &:hover, &:active, &:focus {
+                .underline;
+            }
+        }
     }
 }
 
